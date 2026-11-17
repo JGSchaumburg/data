@@ -1,0 +1,110 @@
+# SEPTA Accelerate: proposed service by station and district
+
+**One-line summary:** Every Regional Rail and Metro station with the service frequency and accessibility SEPTA's Accelerate plan proposes for it, placed in its Pennsylvania House, Senate and Philadelphia Council district, plus the eight trolley routes with their stops counted by district.
+
+## Source
+
+- **Original source:** SEPTA, [Accelerate](https://www.septa.org/accelerate/), November 2026: the [full plan](https://www.septa.org/wp-content/uploads/page/communication/SEPTA_Accelerate_Web_Nov26.pdf), the [executive summary](https://www.septa.org/wp-content/uploads/page/communication/SEPTA_Accelerate_ExecSummary_Web_Nov26.pdf) and five two-page county fact sheets dated September 2026 ([Philadelphia](https://www.septa.org/wp-content/uploads/page/communication/SEPTA_Accelerate_Philadelphia_Web_Nov26.pdf), [Bucks](https://www.septa.org/wp-content/uploads/page/communication/SEPTA_Accelerate_BucksCounty_Web_Nov26.pdf), [Chester](https://www.septa.org/wp-content/uploads/page/communication/SEPTA_Accelerate_ChesterCounty_Web_Nov26.pdf), [Delaware](https://www.septa.org/wp-content/uploads/page/communication/SEPTA_Accelerate_DelawareCounty_Web_Nov26.pdf), [Montgomery](https://www.septa.org/wp-content/uploads/page/communication/SEPTA_Accelerate_MontgomeryCounty_Web_Nov26.pdf)). Pulled 2026-11-16.
+- **Stations, stops and line order:** SEPTA GTFS release [`v202611010`](https://github.com/septadev/GTFS/releases/tag/v202611010) (schedule starting 2026-11-01). Pulled 2026-11-17.
+- **Districts:** [Regional Rail stations by district](../regional-rail-station-districts/) for the Regional Rail stations it covers; Census TIGER/Line 2024 for everything else; City of Philadelphia [Council Districts 2024](https://services.arcgis.com/fLeGjb7u4uXqeF9q/arcgis/rest/services/Council_Districts_2024/FeatureServer/0) (the ArcGIS layer behind OpenDataPhilly) (pulled 2026-11-17); [PA legislators 2025–26](../../pennsylvania/legislators-2025-2026/) and [2026 election results](../../pennsylvania/election-2026-results/).
+- **Named FY27 projects:** SEPTA [FY2027 Operating and Capital Budget Proposal](https://www.septa.org/wp-content/uploads/page/planning/SEPTA-FY-2027-Operating-Capital-Budget-Proposal.pdf), through the parsed project table in [`analyses/septa-capital-tip-tracker`](../../../analyses/septa-capital-tip-tracker/).
+- **Built on:** 2026-11-17
+- **Geography:** SEPTA Regional Rail and Metro (L, B, M) stations and trolley routes; stations in Delaware and New Jersey have no district
+
+## Processing
+
+Script: [`pipelines/septa_accelerate_stations/build.py`](../../../pipelines/septa_accelerate_stations/build.py).
+
+- **Proposed frequency.** The plan does not list stations. Each county fact sheet names the stations that a frequency tier reaches ("all-day, 15-minute Regional Rail service between Center City and Airport, Wawa, Paoli, Norristown, Chestnut Hill East, and Fox Chase Stations"; "30-minute or better ... to Bristol, Neshaminy, Warminster, and Lansdale"; "60-minute or better service to Trenton, West Trenton, and Doylestown"). For each line, the stations between Suburban Station and a named terminal, in GTFS line order, are assigned that terminal's tier. A station on more than one line gets the best tier. The terminal rules and the page each comes from are typed in at the top of the script.
+- **Districts.** Regional Rail districts, county and municipality are copied from `regional-rail-station-districts.csv` (matched on `stop_id`), not recomputed. Metro stations, the three Regional Rail rows that file does not have (Wawa, North Philadelphia Amtrak, Coatesville) and trolley stops are placed by point-in-polygon against the same Census TIGER/Line 2024 polygons and the same 100 m edge test that pipeline uses. Council districts are point-in-polygon against the City's 2024 layer, for Philadelphia stations only.
+- **Metro stations** are the stops on GTFS routes L1, B1, B3 and M1, one row per station per line letter (a station on both the B1 and B3 is one row). The employee-only platform on the M is dropped.
+- **Named FY27 projects** are matched to stations by hand, by project name, and their total project cost is read from the capital budget table.
+
+## Files
+
+| File | Format | Description |
+|---|---|---|
+| `septa-accelerate-stations.csv` | CSV | One row per Regional Rail and Metro station, 231 rows |
+| `septa-accelerate-trolley-routes.csv` | CSV | One row per trolley route, 8 rows |
+| `septa-accelerate-trolley-stops-by-district.csv` | CSV | Trolley stops counted by route, chamber (`house`, `senate`, `council`) and district |
+| `fy27-named-station-projects.csv` | CSV | The 22 named FY27 capital projects and the station rows each is attached to |
+| `census-geocoder-check.csv` | CSV | Independent check of the 77 point-in-polygon station rows against the Census geocoder |
+
+## Columns
+
+`septa-accelerate-stations.csv`
+
+| Column | Type | Description |
+|---|---|---|
+| `mode` | text | `Regional Rail` or `Metro` |
+| `line` | text | GTFS line names serving the station, separated by `;` |
+| `station`, `stop_id`, `latitude`, `longitude` | text, text, number, number | From GTFS. Coatesville has no stop yet (see caveats) |
+| `county`, `municipality` | text | Blank outside Pennsylvania |
+| `house_district`, `senate_district` | text | Blank outside Pennsylvania |
+| `council_district` | text | Philadelphia Council district (2024 map); blank outside Philadelphia |
+| `house_near_boundary`, `senate_near_boundary`, `council_near_boundary` | true/false | `true` if the station is within 100 m of that district's edge |
+| `district_source` | text | `regional_rail_station_districts` (copied from that dataset) or `point_in_polygon` (computed here) |
+| `proposed_frequency_minutes` | number | 15, 30 or 60: the plan's "15-minute", "30-minute or better" or "60-minute or better" tier. Blank where the plan does not specify one. Metro rows are always blank |
+| `frequency_basis` | text | `terminal_named_in_plan` (the plan names this station), `inferred_between_terminals` (between Center City and a named station), or `not_specified` |
+| `frequency_terminal` | text | The named station whose tier applies |
+| `frequency_source` | text | Fact sheet or plan page for that tier. Plan pages are the printed numbers of the two-page spread |
+| `accessible_today` | text | From GTFS `wheelchair_boarding`: `true`, `false` or `unknown` |
+| `accessibility_rebuild_proposed` | true/false | `true` where the station is not accessible today. The plan proposes full accessibility at every Regional Rail station (pp. 9–10, 55–56) and every Metro station (pp. 7–8, 57–58), so these are the stations that need work. Blank where accessibility today is unknown |
+| `fy27_named_projects` | text | Named FY27 capital budget projects at this station, separated by `;` |
+| `fy27_named_projects_millions` | number | Total project cost of those projects, $ millions. A project at two stations counts in full at both, so do not sum this column |
+| `house_member_2025_26`, `house_party_2025_26` (and Senate) | text | Member for the district |
+| `house_seat_2026_status`, `senate_seat_2026_status` | text | `hold`, `flip_r_to_d`, `flip_d_to_r`, `uncounted`, or `not_up`. Unofficial, as of 2026-11-10 |
+| `*_winner_2026`, `*_winner_party_2026` | text | Unofficial winner of that seat; blank where the seat was not up |
+
+`septa-accelerate-trolley-routes.csv`: `route`, `name` (GTFS), `proposal` (the plan's wording, condensed), `named_in_plan`, `source` (pages), `stop_count` (GTFS stops on the route, both directions), `accessible_stops_today` (stops with GTFS `wheelchair_boarding = 1`).
+
+`septa-accelerate-trolley-stops-by-district.csv`: `route`, `chamber`, `district`, `stop_count`.
+
+`fy27-named-station-projects.csv`: `project`, `cpms`, `program` (as in the budget), `total_cost_millions`, `twelve_year_millions` (FY2027–2038), `stations`, `budget_page` (PDF page of the project sheet).
+
+## Key findings
+
+- **73 of 156 Regional Rail stops are in the plan's 15-minute tier** (47%), consistent with the plan's "nearly half of our 155 stations" (pp. 9–10). 47 are in the 30-minute or better tier, 23 in the 60-minute or better tier, and 13 are not specified: the 10 Chestnut Hill West and 3 Cynwyd Line stations. Coatesville is a 157th row with no tier. Only 17 of the 143 tiered stations are named in the plan; the other 126 are inferred.
+- **By county**, the 15-minute stations are 35 in Philadelphia, 17 in Delaware, 16 in Montgomery and 5 in Chester. None are in Bucks, where the best named tier is 30 minutes.
+- **79 of 156 Regional Rail stops are not accessible today** by SEPTA's GTFS, including 37 in the 15-minute tier. Six of the 79 have a named FY27 station project. On Metro, 28 of 74 stations are not accessible today: 3 on the L, 10 on the B and 15 on the M. Ten of those 28 have a named FY27 project; none of the 15 M stations do.
+- **Seats that flipped.** Seven stations with a proposed tier are in House seats that flipped R to D in the unofficial 2026 results: Cornwells Heights, Eddington, Neshaminy Falls and Trevose (HD-18, 30-minute tier), Langhorne and Woodbourne (HD-142, 60-minute tier), and Wawa (HD-160, 15-minute tier). Eight are in Senate seats that flipped (seven in SD-6, one in SD-24).
+- **Trolleys.** The plan proposes 5-minute peak service on the five T routes and 15-minute peak service on the D1 and D2, with new low-floor vehicles and accessible stops. The eight routes have 706 GTFS stops between them (shared stops counted once per route).
+- **The named FY27 station projects total $1,388.28M** across 22 projects and 26 station rows. The largest is the $400M Schuylkill bridges and interlockings between 30th Street and Suburban Station.
+
+Program-wide FY27 budget lines related to the plan's vehicles and lines, total project cost from the capital budget. These are **not** divided among districts (see caveats).
+
+| Capital budget project | $M |
+|---|---|
+| Trolley Modernization Vehicles and Infrastructure | 3,685.14 |
+| Regional Rail Cars Silverliner IV Vehicle Replacement | 2,117.34 |
+| Regional Rail Cars Silverliner IV Infrastructure | 132.59 |
+| Market-Frankford Line (L) Vehicle Replacement and Infrastructure | 1,805.09 |
+| Broad Street Line (B) Vehicle Replacement and Infrastructure | 727.31 |
+| Broad Street Subway Line Signals | 194.92 |
+| Norristown High Speed Line (M) Signal System Renewal | 352.07 |
+| NHSL (M) Viaduct over Schuylkill River | 54.99 |
+
+## Independent check
+
+The 77 rows placed here by point-in-polygon (74 Metro stations and 3 Regional Rail rows) were sent by coordinates to the Census Bureau geocoder (script: [`check_with_census_geocoder.py`](../../../pipelines/septa_accelerate_stations/check_with_census_geocoder.py)). 76 agree on both House and Senate district. The one difference is Logan on the B: HD-201 here, HD-198 from the geocoder. It sits within 100 m of the edge and is flagged `house_near_boundary`.
+
+## Known gaps and caveats
+
+- **Accelerate is a vision plan.** It is not a funded program or an itemized project list. SEPTA says the full vision "is only achievable with stable, adequate investment." Nothing here says when, or whether, a station will see the proposed service.
+- **Station frequencies are inferred.** SEPTA has not published a station list. The tiers come from the stations each county fact sheet names, assuming every station between Center City and a named station gets that tier. Express patterns, skip-stops and short-turns could change this for individual stations. Montgomery's sheet says 15-minute service comes "first to Jenkintown, then to Paoli and Norristown", so the tiers do not all arrive at once. The 30 and 60 tiers are ceilings ("or better").
+- **Not specified is not "no change".** Chestnut Hill West, Cynwyd and Coatesville get no tier because the plan does not name a frequency for them, not because it proposes none.
+- **Coatesville.** The Chester County sheet proposes "reinstated service to Coatesville" with no frequency. There is no GTFS stop; the row uses the location of the existing Amtrak station, which is approximate.
+- **Metro frequency is line-level.** The plan proposes "15-minute or better M service" (Montgomery sheet p. 2) and "25% shorter headway capabilities" on the L (plan pp. 7–8; Philadelphia sheet p. 2). Neither is a station-level frequency, so Metro rows are blank.
+- **G1 (Route 15) is not named in the plan.** Its row says so. Only the plan-wide statements (the whole trolley fleet replaced, every trolley station accessible) could apply to it.
+- **FY27 program dollars are not divided by district.** Vehicle, signal and trolley programs run across many districts and cannot be split among them honestly, so they are listed above as totals only.
+- **Named FY27 projects are related budget items, not proof they fund Accelerate.** They are station projects in SEPTA's capital budget at stations the plan covers. Some are mostly in the past (Ardmore reopened in March 2026), and some are mostly deferred (Noble construction is deferred beyond FY2038; the 69th Street project is scheduled for 2038 and beyond). `total_cost_millions` is the whole project cost, including prior years; `twelve_year_millions` is what the budget plans for FY2027–2038.
+- **Projects attached to more than one station** (30th Street and Suburban, Fern Rock on Regional Rail and the B, 69th Street on the L and M, Hunting Park and Wyoming) carry their full cost on each row.
+- **Accessibility today is GTFS's.** It may lag recent work: Ardmore reopened in March 2026 but is still `false` in this feed. 11th St (L) is missing from the feed's stop list and has no scheduled stops; its location is the Market St & 11th St bus stop, and it is marked not accessible because its FY27 project is described as making it "fully ADA accessible."
+- **Two North Philadelphia stops.** GTFS has North Philadelphia SEPTA (Chestnut Hill West) and North Philadelphia Amtrak (Trenton Line) as separate stops, so there are 156 Regional Rail stops rather than SEPTA's 155 stations.
+- **Results are unofficial.** They come from MultiState's election page, not certified returns. **Member names are for 2025–26** and will change in January 2027 where seats flipped or incumbents left.
+- **Edge cases.** Rows flagged `near_boundary` could land in a neighboring district with small coordinate differences.
+- **Trolley stops** are GTFS stops, so a stop served in both directions usually counts twice, and stops shared by several T routes count once for each route.
+
+## License
+
+CC BY 4.0. Please credit Transit Forward Philly, SEPTA, the City of Philadelphia and the US Census Bureau.
