@@ -30,7 +30,7 @@ Script: [`pipelines/septa_accelerate_stations/build.py`](../../../pipelines/sept
 | `septa-accelerate-trolley-routes.csv` | CSV | One row per trolley route, 8 rows |
 | `septa-accelerate-trolley-stops-by-district.csv` | CSV | Trolley stops counted by route, chamber (`house`, `senate`, `council`) and district |
 | `fy27-named-station-projects.csv` | CSV | The 22 named FY27 capital projects and the station rows each is attached to |
-| `septa-accelerate-district-summary.csv` | CSV | One row per House, Senate and Council district that has a station or trolley stop, 79 rows: counts from the files above plus the member, 2026 result, transit funding vote and Regional Rail boardings |
+| `septa-accelerate-district-summary.csv` | CSV | One row per House and Senate district with at least half its population in the five Pennsylvania SEPTA counties or with a station or trolley stop, and per Council district: counts from the files above plus the member, 2026 result, transit funding vote and Regional Rail boardings |
 | `census-geocoder-check.csv` | CSV | Independent check of the 77 point-in-polygon station rows against the Census geocoder |
 
 ## Columns

@@ -19,6 +19,7 @@ Counts only. Nothing is scored or ranked.
 """
 
 import csv
+import json
 import sys
 import tomllib
 from collections import defaultdict
@@ -30,6 +31,10 @@ OUT_DIR = D / "septa-region/septa-accelerate-station-service"
 
 # The transit funding final passage vote in each chamber, 2025-26 session.
 FUNDING_VOTE = {"house": "hb1788-final", "senate": "hb257-final"}
+
+# Every House and Senate district with at least half its population in SEPTA's five Pennsylvania counties
+# gets a row, even with no station or trolley stop, so no district in the region is silently left out.
+REGION = {"Philadelphia", "Bucks", "Chester", "Delaware", "Montgomery"}
 
 COLUMNS = [
     "chamber", "district",
@@ -106,6 +111,12 @@ def main(out_path):
                 row["near_boundary_stations"] += 1
             for p in filter(None, (x.strip() for x in s["fy27_named_projects"].split(";"))):
                 projects[(ch, d)].add(p)
+
+    for ch in ("house", "senate"):
+        for f in json.load(open(D / f"pennsylvania/boundaries/pa_{ch}_districts.geojson", encoding="utf-8"))["features"]:
+            pr = f["properties"]
+            if sum(c["populationShare"] for c in pr["topCounties"] if c["name"] in REGION) >= 0.5:
+                rows[(ch, str(pr["district"]))]  # creates an empty row if the district has no stops
 
     for t in trolley:
         key = (t["chamber"], t["district"])
