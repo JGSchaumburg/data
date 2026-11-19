@@ -18,6 +18,7 @@ Script: [`pipelines/septa_accelerate_stations/build.py`](../../../pipelines/sept
 - **Proposed frequency.** The plan does not list stations. Each county fact sheet names the stations that a frequency tier reaches ("all-day, 15-minute Regional Rail service between Center City and Airport, Wawa, Paoli, Norristown, Chestnut Hill East, and Fox Chase Stations"; "30-minute or better ... to Bristol, Neshaminy, Warminster, and Lansdale"; "60-minute or better service to Trenton, West Trenton, and Doylestown"). For each line, the stations between Suburban Station and a named terminal, in GTFS line order, are assigned that terminal's tier. A station on more than one line gets the best tier. The terminal rules and the page each comes from are typed in at the top of the script.
 - **Districts.** Regional Rail districts, county and municipality are copied from `regional-rail-station-districts.csv` (matched on `stop_id`), not recomputed. Metro stations, the three Regional Rail rows that file does not have (Wawa, North Philadelphia Amtrak, Coatesville) and trolley stops are placed by point-in-polygon against the same Census TIGER/Line 2024 polygons and the same 100 m edge test that pipeline uses. Council districts are point-in-polygon against the City's 2024 layer, for Philadelphia stations only.
 - **Metro stations** are the stops on GTFS routes L1, B1, B3 and M1, one row per station per line letter (a station on both the B1 and B3 is one row). The employee-only platform on the M is dropped.
+- **District summary.** [`build_district_summary.py`](../../../pipelines/septa_accelerate_stations/build_district_summary.py) counts the station and trolley files by district and adds the member and 2026 result (from the datasets above), the member's vote on final passage of the 2025–26 transit funding bill in that chamber (HB 1788 in the House, HB 257 in the Senate, from [transportation votes](../../pennsylvania/transportation-votes/)), and weekday Regional Rail boardings from [SEPTA's station layer](../septa-regional-rail-stations/), matched on `stop_id`. It reads only files in this repo. It counts; it does not score or rank districts.
 - **Named FY27 projects** are matched to stations by hand, by project name, and their total project cost is read from the capital budget table.
 
 ## Files
@@ -28,6 +29,7 @@ Script: [`pipelines/septa_accelerate_stations/build.py`](../../../pipelines/sept
 | `septa-accelerate-trolley-routes.csv` | CSV | One row per trolley route, 8 rows |
 | `septa-accelerate-trolley-stops-by-district.csv` | CSV | Trolley stops counted by route, chamber (`house`, `senate`, `council`) and district |
 | `fy27-named-station-projects.csv` | CSV | The 22 named FY27 capital projects and the station rows each is attached to |
+| `septa-accelerate-district-summary.csv` | CSV | One row per House, Senate and Council district that has a station or trolley stop, 79 rows: counts from the files above plus the member, 2026 result, transit funding vote and Regional Rail boardings |
 | `census-geocoder-check.csv` | CSV | Independent check of the 77 point-in-polygon station rows against the Census geocoder |
 
 ## Columns
@@ -59,6 +61,27 @@ Script: [`pipelines/septa_accelerate_stations/build.py`](../../../pipelines/sept
 `septa-accelerate-trolley-routes.csv`: `route`, `name` (GTFS), `proposal` (the plan's wording, condensed), `named_in_plan`, `source` (pages), `stop_count` (GTFS stops on the route, both directions), `accessible_stops_today` (stops with GTFS `wheelchair_boarding = 1`).
 
 `septa-accelerate-trolley-stops-by-district.csv`: `route`, `chamber`, `district`, `stop_count`.
+
+`septa-accelerate-district-summary.csv`
+
+| Column | Type | Description |
+|---|---|---|
+| `chamber`, `district` | text | `house`, `senate` or `council`, and the district number |
+| `member_2025_26`, `party_2025_26` | text | House and Senate only |
+| `seat_2026_status`, `winner_2026`, `winner_party_2026` | text | As in the station file. Unofficial |
+| `transit_funding_vote_bill`, `transit_funding_vote_2025_26` | text | `HB 1788` (House final passage, Aug 11, 2025) or `HB 257` (Senate final passage, Aug 12, 2025), and the 2025–26 member's vote: `Y`, `N`, `NV` (not voting) or `NA` |
+| `regional_rail_stations` | number | Regional Rail stops in the district |
+| `rr_15_min`, `rr_30_min`, `rr_60_min`, `rr_frequency_not_specified` | number | Those stops by proposed tier |
+| `rr_15_min_inferred` | number | 15-minute stops whose tier is inferred, not named in the plan |
+| `metro_stations` | number | Metro stations in the district |
+| `accessibility_rebuilds` | number | Regional Rail and Metro stations not accessible today |
+| `accessible_today_unknown` | number | Stations with no GTFS accessibility value |
+| `trolley_routes`, `trolley_stops` | text, number | Trolley routes with a stop in the district, and their stops (counted as in the trolley file) |
+| `fy27_named_projects` | number | Distinct named FY27 station projects at stations in the district. A count, not dollars |
+| `rr_weekday_boardings` | number | SEPTA's weekday total boardings at the district's Regional Rail stops |
+| `rr_weekday_boardings_at_15_min_stations` | number | The same, for 15-minute stops only |
+| `rr_stations_without_boardings` | number | Stops with no SEPTA boardings figure (Wawa, North Philadelphia Amtrak, Coatesville) |
+| `near_boundary_stations` | number | Stations within 100 m of this district's edge |
 
 `fy27-named-station-projects.csv`: `project`, `cpms`, `program` (as in the budget), `total_cost_millions`, `twelve_year_millions` (FY2027–2038), `stations`, `budget_page` (PDF page of the project sheet).
 
@@ -104,6 +127,10 @@ The 77 rows placed here by point-in-polygon (74 Metro stations and 3 Regional Ra
 - **Results are unofficial.** They come from MultiState's election page, not certified returns. **Member names are for 2025–26** and will change in January 2027 where seats flipped or incumbents left.
 - **Edge cases.** Rows flagged `near_boundary` could land in a neighboring district with small coordinate differences.
 - **Trolley stops** are GTFS stops, so a stop served in both directions usually counts twice, and stops shared by several T routes count once for each route.
+
+- **The district summary leaves out buses.** Accelerate's largest change in Philadelphia is the bus network: the Philadelphia fact sheet's 620,000 to 1.4 million residents near frequent transit comes mostly from buses. Bus changes are not counted here, so districts served mainly by bus will look like they get less from the plan than they do. Read the summary as rail and trolley only.
+- **Boardings are SEPTA's and undated.** SEPTA's station layer does not say what period its counts cover (see [that dataset](../septa-regional-rail-stations/)). They are Regional Rail only; Metro and trolley ridership is not included.
+- **Votes belong to the 2025–26 member.** Where a seat flipped or turned over, the new member did not cast that vote.
 
 ## License
 
