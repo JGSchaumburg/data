@@ -77,7 +77,8 @@ Script: [`pipelines/septa_accelerate_stations/build.py`](../../../pipelines/sept
 | `accessibility_rebuilds` | number | Regional Rail and Metro stations not accessible today |
 | `accessible_today_unknown` | number | Stations with no GTFS accessibility value |
 | `trolley_routes`, `trolley_stops` | text, number | Trolley routes with a stop in the district, and their stops (counted as in the trolley file) |
-| `fy27_named_projects` | number | Distinct named FY27 station projects at stations in the district. A count, not dollars |
+| `fy27_named_projects` | number | Distinct named FY27 station projects at stations in the district |
+| `fy27_named_projects_millions` | number | Total project cost of those projects, $ millions, each counted once per district. A project with stations in two districts counts in full in both, so do not sum this column across districts. Program-wide budget lines are not included |
 | `rr_weekday_boardings` | number | SEPTA's weekday total boardings at the district's Regional Rail stops |
 | `rr_weekday_boardings_at_15_min_stations` | number | The same, for 15-minute stops only |
 | `rr_stations_without_boardings` | number | Stops with no SEPTA boardings figure (Wawa, North Philadelphia Amtrak, Coatesville) |
@@ -130,6 +131,7 @@ The 77 rows placed here by point-in-polygon (74 Metro stations and 3 Regional Ra
 
 - **The district summary leaves out buses.** Accelerate's largest change in Philadelphia is the bus network: the Philadelphia fact sheet's 620,000 to 1.4 million residents near frequent transit comes mostly from buses. Bus changes are not counted here, so districts served mainly by bus will look like they get less from the plan than they do. Read the summary as rail and trolley only.
 - **Boardings are SEPTA's and undated.** SEPTA's station layer does not say what period its counts cover (see [that dataset](../septa-regional-rail-stations/)). They are Regional Rail only; Metro and trolley ridership is not included.
+- **Council rows have no member names.** The repo does not have a City Council roster yet.
 - **Votes belong to the 2025–26 member.** Where a seat flipped or turned over, the new member did not cast that vote.
 
 ## License

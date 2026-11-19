@@ -39,7 +39,7 @@ COLUMNS = [
     "rr_15_min_inferred",
     "metro_stations", "accessibility_rebuilds", "accessible_today_unknown",
     "trolley_routes", "trolley_stops",
-    "fy27_named_projects",
+    "fy27_named_projects", "fy27_named_projects_millions",
     "rr_weekday_boardings", "rr_weekday_boardings_at_15_min_stations", "rr_stations_without_boardings",
     "near_boundary_stations",
 ]
@@ -67,6 +67,9 @@ def main(out_path):
     for r in csv.DictReader(open(D / "pennsylvania/transportation-votes/member-votes.csv", encoding="utf-8")):
         if FUNDING_VOTE.get(r["chamber"]) == r["vote_key"]:
             votes[r["chamber"]][r["district"]] = r
+
+    cost = {r["project"]: float(r["total_cost_millions"])
+            for r in csv.DictReader(open(OUT_DIR / "fy27-named-station-projects.csv", encoding="utf-8"))}
 
     rows = defaultdict(lambda: defaultdict(int))
     routes = defaultdict(set)
@@ -115,7 +118,8 @@ def main(out_path):
         row = {c: counts.get(c, 0) for c in COLUMNS}
         row.update(chamber=ch, district=d,
                    trolley_routes="; ".join(sorted(routes[(ch, d)])),
-                   fy27_named_projects=len(projects[(ch, d)]))
+                   fy27_named_projects=len(projects[(ch, d)]),
+                   fy27_named_projects_millions=f"{sum(cost[p] for p in projects[(ch, d)]):.2f}" if projects[(ch, d)] else "")
         for c in ("member_2025_26", "party_2025_26", "seat_2026_status", "winner_2026", "winner_party_2026",
                   "transit_funding_vote_bill", "transit_funding_vote_2025_26"):
             row[c] = ""
