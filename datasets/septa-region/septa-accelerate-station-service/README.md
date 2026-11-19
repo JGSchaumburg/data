@@ -71,6 +71,7 @@ Script: [`pipelines/septa_accelerate_stations/build.py`](../../../pipelines/sept
 | `member_2025_26`, `party_2025_26` | text | House and Senate only |
 | `seat_2026_status`, `winner_2026`, `winner_party_2026` | text | As in the station file. Unofficial |
 | `transit_funding_vote_bill`, `transit_funding_vote_2025_26` | text | `HB 1788` (House final passage, Aug 11, 2025) or `HB 257` (Senate final passage, Aug 12, 2025), and the 2025–26 member's vote: `Y`, `N`, `NV` (not voting) or `NA` |
+| `transit_funding_vote_pro_transit` | true/false | Whether that vote was the pro-transit position, from the roll call's `pro_position`. On HB 1788 that is Yes; on HB 257, the Senate's version without the House transit funding, it is No. Blank for `NV` and `NA` |
 | `regional_rail_stations` | number | Regional Rail stops in the district |
 | `rr_15_min`, `rr_30_min`, `rr_60_min`, `rr_frequency_not_specified` | number | Those stops by proposed tier |
 | `metro_stations` | number | Metro stations in the district |

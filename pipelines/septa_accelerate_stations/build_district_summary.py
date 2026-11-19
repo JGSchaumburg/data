@@ -34,7 +34,7 @@ FUNDING_VOTE = {"house": "hb1788-final", "senate": "hb257-final"}
 COLUMNS = [
     "chamber", "district",
     "member_2025_26", "party_2025_26", "seat_2026_status", "winner_2026", "winner_party_2026",
-    "transit_funding_vote_bill", "transit_funding_vote_2025_26",
+    "transit_funding_vote_bill", "transit_funding_vote_2025_26", "transit_funding_vote_pro_transit",
     "regional_rail_stations", "rr_15_min", "rr_30_min", "rr_60_min", "rr_frequency_not_specified",
     "metro_stations", "accessibility_rebuilds", "accessible_today_unknown",
     "trolley_routes", "trolley_stops",
@@ -62,6 +62,8 @@ def main(out_path):
 
     legs = {ch: records(D / f"pennsylvania/legislators-2025-2026/records/{ch}") for ch in ("house", "senate")}
     results = {ch: records(D / f"pennsylvania/election-2026-results/records/{ch}") for ch in ("house", "senate")}
+    roll = {k: tomllib.loads((D / f"pennsylvania/transportation-votes/roll-calls/{k}.toml").read_text()) for k in FUNDING_VOTE.values()}
+    PRO = {"Yea": "Y", "Nay": "N"}
     votes = {ch: {} for ch in FUNDING_VOTE}
     for r in csv.DictReader(open(D / "pennsylvania/transportation-votes/member-votes.csv", encoding="utf-8")):
         if FUNDING_VOTE.get(r["chamber"]) == r["vote_key"]:
@@ -118,7 +120,7 @@ def main(out_path):
                    fy27_named_projects=len(projects[(ch, d)]),
                    fy27_named_projects_millions=f"{sum(cost[p] for p in projects[(ch, d)]):.2f}" if projects[(ch, d)] else "")
         for c in ("member_2025_26", "party_2025_26", "seat_2026_status", "winner_2026", "winner_party_2026",
-                  "transit_funding_vote_bill", "transit_funding_vote_2025_26"):
+                  "transit_funding_vote_bill", "transit_funding_vote_2025_26", "transit_funding_vote_pro_transit"):
             row[c] = ""
         if ch in legs:
             m, f, v = legs[ch].get(d), results[ch].get(d), votes[ch].get(d)
@@ -129,6 +131,9 @@ def main(out_path):
             row["winner_party_2026"] = f.get("winner_party", "") if f else ""
             row["transit_funding_vote_bill"] = v["bill"] if v else ""
             row["transit_funding_vote_2025_26"] = v["vote"] if v else ""
+            # The pro-transit side differs by bill: "Nay" on the Senate's HB 257 (see its roll call record).
+            pro = PRO[roll[FUNDING_VOTE[ch]]["pro_position"]]
+            row["transit_funding_vote_pro_transit"] = ("true" if v["vote"] == pro else "false" if v["vote"] in ("Y", "N") else "") if v else ""
         out.append(row)
 
     order = {"house": 0, "senate": 1, "council": 2}
