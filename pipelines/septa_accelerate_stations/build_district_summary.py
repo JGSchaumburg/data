@@ -36,7 +36,6 @@ COLUMNS = [
     "member_2025_26", "party_2025_26", "seat_2026_status", "winner_2026", "winner_party_2026",
     "transit_funding_vote_bill", "transit_funding_vote_2025_26",
     "regional_rail_stations", "rr_15_min", "rr_30_min", "rr_60_min", "rr_frequency_not_specified",
-    "rr_15_min_inferred",
     "metro_stations", "accessibility_rebuilds", "accessible_today_unknown",
     "trolley_routes", "trolley_stops",
     "fy27_named_projects", "fy27_named_projects_millions",
@@ -89,8 +88,6 @@ def main(out_path):
                     row[f"rr_{f}_min"] += 1
                 else:
                     row["rr_frequency_not_specified"] += 1
-                if f == "15" and s["frequency_basis"] == "inferred_between_terminals":
-                    row["rr_15_min_inferred"] += 1
                 if s["stop_id"] in boards:
                     row["rr_weekday_boardings"] += boards[s["stop_id"]]
                     if f == "15":

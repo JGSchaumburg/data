@@ -58,44 +58,55 @@ COUNCIL_URL = (
 # numbers of the spread. Fact sheet pages are 1 or 2.
 PLAN = "Accelerate plan"
 PHL, BUCKS, CHESTER, DELCO, MONTCO = (f"{c} fact sheet" for c in ("Philadelphia", "Bucks County", "Chester County", "Delaware County", "Montgomery County"))
+# SEPTA, Reimagining Regional Rail: Regional Rail Master Plan, Section 05 Network Vision (September 2026),
+# https://wwww.septa.org/wp-content/uploads/page/planning/RRMP_FINAL_05_Vision_SEPTA.pdf . Printed page
+# numbers of the two-page spread. Pages 166-167 define the tiers: S Lines run "every 15 minutes or better all
+# day ... stopping at every station"; SEPTA Regional runs "every 30-60 minutes or better".
+RRMP = "Regional Rail Master Plan"
 
 # ---------------------------------------------------------------------------------------------
-# Regional Rail service tiers, typed in from the county fact sheets.
+# Regional Rail service tiers, typed in from the county fact sheets and the Regional Rail Master Plan.
 # For each GTFS route: the terminals the plan names, ordered from Center City outward, with the
 # frequency the plan proposes to that terminal ("15-minute", "30-minute or better", "60-minute or
-# better"). A station between Center City and a named terminal is assumed to get that terminal's
-# tier. A station past the last named terminal is left as not specified. Chestnut Hill West and
-# Cynwyd are not named anywhere in the plan's service text.
+# better"). A station between Center City and a named terminal gets that terminal's tier. This is how
+# the Master Plan states service: S Lines stop at every station (pp. 166-167) and each SEPTA Regional
+# tier runs "as far as" a named station (pp. 176-179). Peak-hour express trains are not modeled.
 # ---------------------------------------------------------------------------------------------
 RULES = {
     # Philadelphia p. 2: "all-day, 15-minute Regional Rail service between Center City and Airport,
     # Wawa, Paoli, Norristown, Chestnut Hill East, and Fox Chase Stations". Same list in the plan, pp. 9-10.
-    "AIR": [("Airport Terminals E & F", 15, f"{PHL} p. 2; {PLAN} pp. 9-10")],
-    "CHE": [("Chestnut Hill East", 15, f"{PHL} p. 2; {PLAN} pp. 9-10")],
-    "FOX": [("Fox Chase", 15, f"{PHL} p. 2; {PLAN} pp. 9-10")],
-    "MED": [("Wawa", 15, f"{PHL} p. 2; {DELCO} p. 1; {PLAN} pp. 9-10")],
-    "NOR": [("Norristown Elm Street", 15, f"{PHL} p. 2; {MONTCO} p. 1; {PLAN} pp. 9-10")],
+    # Master Plan: S1 Airport - Norristown (pp. 170-171), S2 Chestnut Hill East - Wawa (pp. 172-173),
+    # S3 Paoli - Fox Chase (pp. 174-175).
+    "AIR": [("Airport Terminals E & F", 15, f"{PHL} p. 2; {PLAN} pp. 9-10; {RRMP} pp. 170-171")],
+    "CHE": [("Chestnut Hill East", 15, f"{PHL} p. 2; {PLAN} pp. 9-10; {RRMP} pp. 172-173")],
+    "FOX": [("Fox Chase", 15, f"{PHL} p. 2; {PLAN} pp. 9-10; {RRMP} pp. 174-175")],
+    "MED": [("Wawa", 15, f"{PHL} p. 2; {DELCO} p. 1; {PLAN} pp. 9-10; {RRMP} pp. 172-173")],
+    "NOR": [("Norristown Elm Street", 15, f"{PHL} p. 2; {MONTCO} p. 1; {PLAN} pp. 9-10; {RRMP} pp. 170-171")],
     # Chester p. 1: 15-minute "to destinations like Paoli Station"; "60-minute or better service to Thorndale".
-    "PAO": [("Paoli", 15, f"{PHL} p. 2; {CHESTER} p. 1; {DELCO} p. 1; {MONTCO} p. 1"),
-            ("Thorndale", 60, f"{CHESTER} p. 1")],
+    "PAO": [("Paoli", 15, f"{PHL} p. 2; {CHESTER} p. 1; {DELCO} p. 1; {MONTCO} p. 1; {RRMP} pp. 174-175"),
+            ("Thorndale", 60, f"{CHESTER} p. 1; {RRMP} pp. 178-179")],
     # Montgomery p. 1: 15-minute service "first to Jenkintown"; "30-minute service to Lansdale, Warminster,
     # and Neshaminy Stations". Bucks p. 1: "30-minute or better ... to Bristol, Neshaminy, Warminster, and
     # Lansdale"; "60-minute or better service to Trenton, West Trenton, and Doylestown".
-    "LAN": [("Jenkintown-Wyncote", 15, f"{MONTCO} p. 1"),
-            ("Lansdale", 30, f"{MONTCO} p. 1; {BUCKS} p. 1"),
-            ("Doylestown", 60, f"{BUCKS} p. 1")],
-    "WAR": [("Jenkintown-Wyncote", 15, f"{MONTCO} p. 1"),
-            ("Warminster", 30, f"{MONTCO} p. 1; {BUCKS} p. 1")],
-    "WTR": [("Jenkintown-Wyncote", 15, f"{MONTCO} p. 1"),
-            ("Neshaminy Falls", 30, f"{MONTCO} p. 1; {BUCKS} p. 1"),  # the plan says "Neshaminy"
-            ("West Trenton", 60, f"{BUCKS} p. 1")],
-    "TRE": [("Bristol", 30, f"{BUCKS} p. 1"),
-            ("Trenton Transit Center", 60, f"{BUCKS} p. 1")],
+    # Master Plan pp. 176-177: "Glenside Combined: 15-minute MAX from Glenside to Center City", from the
+    # Lansdale/Doylestown, Warminster and West Trenton schedules together. Montgomery's "first to
+    # Jenkintown" is the order it arrives in, not where it ends.
+    "LAN": [("Glenside", 15, f"{MONTCO} p. 1; {RRMP} pp. 176-177"),
+            ("Lansdale", 30, f"{MONTCO} p. 1; {BUCKS} p. 1; {RRMP} pp. 176-177"),
+            ("Doylestown", 60, f"{BUCKS} p. 1; {RRMP} pp. 178-179")],
+    "WAR": [("Glenside", 15, f"{MONTCO} p. 1; {RRMP} pp. 176-177"),
+            ("Warminster", 30, f"{MONTCO} p. 1; {BUCKS} p. 1; {RRMP} pp. 176-177")],
+    "WTR": [("Jenkintown-Wyncote", 15, f"{MONTCO} p. 1; {RRMP} pp. 176-177"),  # the West Trenton Line leaves the Glenside trunk after Jenkintown
+            ("Neshaminy Falls", 30, f"{MONTCO} p. 1; {BUCKS} p. 1; {RRMP} pp. 176-177"),  # the plan says "Neshaminy"
+            ("West Trenton", 60, f"{BUCKS} p. 1; {RRMP} pp. 178-179")],
+    "TRE": [("Bristol", 30, f"{BUCKS} p. 1; {RRMP} pp. 176-177"),
+            ("Trenton Transit Center", 60, f"{BUCKS} p. 1; {RRMP} pp. 178-179")],
     # Delaware p. 1: "30-minute or better service to Marcus Hook with hourly service to Newark, DE".
-    "WIL": [("Marcus Hook", 30, f"{DELCO} p. 1"),
-            ("Newark DE", 60, f"{DELCO} p. 1")],
-    "CHW": [],
-    "CYN": [],
+    "WIL": [("Marcus Hook", 30, f"{DELCO} p. 1; {RRMP} pp. 176-177"),
+            ("Newark DE", 60, f"{DELCO} p. 1; {RRMP} pp. 178-179")],
+    # Not in the Accelerate text; the Master Plan gives both lines hourly all-day service (pp. 178-179).
+    "CHW": [("Chestnut Hill West", 60, f"{RRMP} pp. 178-179")],
+    "CYN": [("Cynwyd", 60, f"{RRMP} pp. 178-179")],
 }
 CENTER_CITY = "Suburban Station"  # distance along each line is counted from here
 
@@ -220,7 +231,7 @@ def regional_rail(feed):
             lines[sid].append(names[route])
             for term, minutes, source in rules:
                 if abs(i - cc) <= abs(order.index(term) - cc):
-                    basis = "terminal_named_in_plan" if order[i] == term else "inferred_between_terminals"
+                    basis = "terminal_named_in_plan" if order[i] == term else "between_named_stations"
                     if sid not in best or (minutes, basis != "terminal_named_in_plan") < (best[sid][0], best[sid][1] != "terminal_named_in_plan"):
                         best[sid] = (minutes, basis, term, source)
                     break
