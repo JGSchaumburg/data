@@ -49,3 +49,22 @@ type = 'string'
 
 [gitsheet.schema.properties.source]
 type = 'string'
+
+[gitsheet.schema.properties.leadership_caucus]
+type = 'string'
+
+[gitsheet.schema.properties.leadership_role]
+type = 'string'
+
+[gitsheet.schema.properties.leadership_status]
+enum = ['Announced', 'Expected', 'Contested', 'Not announced']
+
+[gitsheet.schema.properties.leadership_source]
+type = 'string'
+
+[gitsheet.schema.properties.leadership_source_date]
+type = 'string'
+pattern = '^[0-9]{4}-[0-9]{2}-[0-9]{2}$'
+
+[gitsheet.schema.properties.leadership_note]
+type = 'string'
