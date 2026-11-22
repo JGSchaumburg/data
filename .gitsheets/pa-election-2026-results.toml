@@ -7,7 +7,7 @@ type = 'object'
 required = ['chamber', 'district', 'outcome', 'result_status', 'as_of', 'source']
 additionalProperties = false
 
-[gitsheet.schema.dependentRequired]
+[gitsheet.schema.dependencies]
 leadership_role = ['leadership_caucus', 'leadership_status', 'leadership_source', 'leadership_source_date']
 
 [gitsheet.schema.properties.chamber]
