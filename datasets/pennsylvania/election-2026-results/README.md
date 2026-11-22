@@ -49,6 +49,7 @@ Every other post is in the separate [`legislature-leadership-2027-28`](../legisl
 - **Senate Democratic Majority Whip:** Spotlight PA has Santarsiero, but earlier reporting by Stephen Caruso called it contested with Tartaglione. It stays `Expected` until a second source confirms.
 - **January floor votes** decide Speaker (McClinton) and President Pro Tempore (Costa), both `Expected` until then.
 - **Spotlight PA entries** carry 2026-11-19, the date of the briefing they were compiled from, not the articles' publication dates.
+- **Philadelphia delegation officers** (Waxman, Bellmon, Green, Parker): the brief gave no status. They are recorded as `Announced` because PoliticsPA reported them as the delegation's officers.
 
 ## What it shows
 

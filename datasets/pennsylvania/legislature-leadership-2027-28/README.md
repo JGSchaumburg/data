@@ -6,7 +6,7 @@
 
 ## Source
 
-- **Original sources:** Spotlight PA; PoliticsPA (2026-11-10); Stephen Caruso on X (2026-11-09). The source is named on every record.
+- **Original sources:** Spotlight PA, or the compiled leadership brief where it names no outlet. The source is named on every record. (Leaders who won in 2026 also draw on PoliticsPA and Stephen Caruso's reporting; those posts are on the winner records.)
 - **Compiled:** as of 2026-11-19
 - **Geography:** Pennsylvania House and Senate
 - **Time period covered:** 2027–28 session, ahead of the January 2027 organizing votes
