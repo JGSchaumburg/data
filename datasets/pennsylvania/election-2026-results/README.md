@@ -8,7 +8,7 @@
 
 - **Original source:** MultiState, [Pennsylvania 2026 Election Results](https://www.multistate.us/elections/results/pennsylvania-2026), which cites Inquirer, WHYY and Spotlight PA reporting
 - **Pulled on:** 2026-11-10
-- **Geography:** Pennsylvania House (203 seats) and Senate (the 25 odd-numbered seats were up)
+- **Geography:** Pennsylvania House (203 seats) and Senate (the 25 even-numbered seats were up)
 - **Time period covered:** 2026 general election
 
 ## Processing
@@ -32,6 +32,24 @@ Parsed from the page's legislative results table into one record per race, and j
 | `incumbent_defeated` | `true` where MultiState notes the incumbent lost |
 | `unopposed`, `other_candidates` | Whether there was no opponent, or who else ran |
 | `result_status`, `as_of`, `source`, `note` | Status, date, provenance and context |
+| `leadership_caucus`, `leadership_role` | 2027–28 leadership post the winner holds, if any (see below) |
+| `leadership_status` | `Announced`, `Expected`, `Contested` or `Not announced` |
+| `leadership_source`, `leadership_source_date`, `leadership_note` | Where the leadership entry comes from, and when |
+
+## 2027–28 leadership (added 2026-11-22, as of 2026-11-19)
+
+21 winners carry the `leadership_*` fields. A leader gets them only when both the name and the seat match: the leader's district comes from the 2025–26 roster, and that district's 2026 winner must agree on surname and first initial.
+
+Every other post is in the separate [`legislature-leadership-2027-28`](../legislature-leadership-2027-28/) sheet, rather than being added here as a winner. That covers five Senate leaders whose odd-numbered seats were not on the 2026 ballot (Costa, Hughes, Pittman, Langerholc, Martin) and eight posts with no holder yet.
+
+`Expected` and `Not announced` mean different things and are kept apart. An unresolved post has a blank holder, not a guess.
+
+**Open items:**
+- **Senate Democratic Caucus Chair** is unresolved (Pisciottano, Street and Boscola were contesting).
+- **Senate Democratic Majority Whip:** Spotlight PA has Santarsiero, but earlier reporting by Stephen Caruso called it contested with Tartaglione. It stays `Expected` until a second source confirms.
+- **January floor votes** decide Speaker (McClinton) and President Pro Tempore (Costa), both `Expected` until then.
+- **Spotlight PA entries** carry 2026-11-19, the date of the briefing they were compiled from, not the articles' publication dates.
+- **Philadelphia delegation officers** (Waxman, Bellmon, Green, Parker): the brief gave no status. They are recorded as `Announced` because PoliticsPA reported them as the delegation's officers.
 
 ## What it shows
 

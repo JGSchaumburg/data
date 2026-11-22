@@ -7,6 +7,9 @@ type = 'object'
 required = ['chamber', 'district', 'outcome', 'result_status', 'as_of', 'source']
 additionalProperties = false
 
+[gitsheet.schema.dependencies]
+leadership_role = ['leadership_caucus', 'leadership_status', 'leadership_source', 'leadership_source_date']
+
 [gitsheet.schema.properties.chamber]
 enum = ['house', 'senate']
 
@@ -48,4 +51,26 @@ type = 'string'
 type = 'string'
 
 [gitsheet.schema.properties.source]
+type = 'string'
+
+[gitsheet.schema.properties.leadership_caucus]
+type = 'string'
+minLength = 1
+
+[gitsheet.schema.properties.leadership_role]
+type = 'string'
+minLength = 1
+
+[gitsheet.schema.properties.leadership_status]
+enum = ['Announced', 'Expected', 'Contested', 'Not announced']
+
+[gitsheet.schema.properties.leadership_source]
+type = 'string'
+minLength = 1
+
+[gitsheet.schema.properties.leadership_source_date]
+type = 'string'
+pattern = '^[0-9]{4}-[0-9]{2}-[0-9]{2}$'
+
+[gitsheet.schema.properties.leadership_note]
 type = 'string'
