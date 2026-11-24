@@ -1,0 +1,78 @@
+mode,line,station,our_house,our_senate,near_house_edge,near_senate_edge,census_house,census_senate,result
+Regional Rail,Trenton Line,North Philadelphia Amtrak,190,3,true,false,190,3,agree
+Regional Rail,Media/Wawa Line,Wawa,160,9,true,false,160,9,agree
+Regional Rail,Paoli/Thorndale Line,Coatesville (proposed reinstated service),74,19,false,false,74,19,agree
+Metro,Market-Frankford Line (L),69th St Transit Center,164,26,false,false,164,26,agree
+Metro,Market-Frankford Line (L),Millbourne,164,26,false,false,164,26,agree
+Metro,Market-Frankford Line (L),63rd St,192,7,true,true,192,7,agree
+Metro,Market-Frankford Line (L),60th St,191,8,true,true,191,8,agree
+Metro,Market-Frankford Line (L),56th St,10,8,false,true,10,8,agree
+Metro,Market-Frankford Line (L),52nd St,10,7,true,false,10,7,agree
+Metro,Market-Frankford Line (L),46th St,188,7,true,false,188,7,agree
+Metro,Market-Frankford Line (L),40th St,188,7,true,false,188,7,agree
+Metro,Market-Frankford Line (L),34th St,188,7,true,false,188,7,agree
+Metro,Market-Frankford Line (L),Drexel Station at 30th St,10,7,true,false,10,7,agree
+Metro,Market-Frankford Line (L),15th St/City Hall,182,1,false,false,182,1,agree
+Metro,Market-Frankford Line (L),13th St,182,1,true,false,182,1,agree
+Metro,Market-Frankford Line (L),11th St,175,1,true,false,175,1,agree
+Metro,Market-Frankford Line (L),8th-Market,175,1,false,false,175,1,agree
+Metro,Market-Frankford Line (L),5th St/Independence Hall,175,1,false,false,175,1,agree
+Metro,Market-Frankford Line (L),2nd St,175,1,false,false,175,1,agree
+Metro,Market-Frankford Line (L),Spring Garden,175,1,false,false,175,1,agree
+Metro,Market-Frankford Line (L),Front-Girard,175,1,false,false,175,1,agree
+Metro,Market-Frankford Line (L),Berks,197,1,false,false,197,1,agree
+Metro,Market-Frankford Line (L),York-Dauphin,197,1,false,true,197,1,agree
+Metro,Market-Frankford Line (L),Huntingdon,177,1,true,false,177,1,agree
+Metro,Market-Frankford Line (L),Somerset,180,2,false,false,180,2,agree
+Metro,Market-Frankford Line (L),Kensington-Allegheny,180,2,false,false,180,2,agree
+Metro,Market-Frankford Line (L),Tioga,180,2,false,false,180,2,agree
+Metro,Market-Frankford Line (L),Erie-Torresdale,180,2,false,false,180,2,agree
+Metro,Market-Frankford Line (L),Church,179,2,false,false,179,2,agree
+Metro,Market-Frankford Line (L),Arrott Transit Center,179,2,false,false,179,2,agree
+Metro,Market-Frankford Line (L),Frankford Transit Center,179,2,true,false,179,2,agree
+Metro,Broad Street Line (B); Broad-Ridge Spur (B),Fern Rock Transit Center,198,3,false,false,198,3,agree
+Metro,Broad Street Line (B); Broad-Ridge Spur (B),Olney Transit Center,201,4,true,true,201,4,agree
+Metro,Broad Street Line (B),Logan,201,4,true,true,198,4,differs
+Metro,Broad Street Line (B),Wyoming,198,3,false,false,198,3,agree
+Metro,Broad Street Line (B),Hunting Park,197,3,true,false,197,3,agree
+Metro,Broad Street Line (B); Broad-Ridge Spur (B),Erie,197,3,true,false,197,3,agree
+Metro,Broad Street Line (B),Broad-Allegheny,197,3,true,false,197,3,agree
+Metro,Broad Street Line (B); Broad-Ridge Spur (B),North Philadelphia,190,3,true,false,190,3,agree
+Metro,Broad Street Line (B),Susquehanna-Dauphin,181,3,true,false,181,3,agree
+Metro,Broad Street Line (B),Cecil B. Moore,181,3,false,false,181,3,agree
+Metro,Broad Street Line (B); Broad-Ridge Spur (B),Broad-Girard,181,3,false,false,181,3,agree
+Metro,Broad Street Line (B); Broad-Ridge Spur (B),Fairmount,181,1,false,true,181,1,agree
+Metro,Broad Street Line (B),Broad-Spring Garden,181,1,true,true,181,1,agree
+Metro,Broad Street Line (B),Race-Vine,181,1,true,false,181,1,agree
+Metro,Broad Street Line (B),15th St/City Hall,182,1,false,false,182,1,agree
+Metro,Broad Street Line (B),Walnut-Locust,182,1,false,false,182,1,agree
+Metro,Broad Street Line (B),Lombard-South,182,1,false,false,182,1,agree
+Metro,Broad Street Line (B),Ellsworth-Federal,182,1,true,true,182,1,agree
+Metro,Broad Street Line (B),Tasker-Morris,186,8,true,true,186,8,agree
+Metro,Broad Street Line (B),Snyder,185,8,true,true,185,8,agree
+Metro,Broad Street Line (B),Oregon,184,1,true,true,184,1,agree
+Metro,Broad Street Line (B),NRG Station,185,1,true,false,185,1,agree
+Metro,Broad-Ridge Spur (B),Chinatown,175,1,false,false,175,1,agree
+Metro,Broad-Ridge Spur (B),8th-Market,175,1,false,false,175,1,agree
+Metro,Norristown High Speed Line (M),69th St Transit Center,164,26,false,false,164,26,agree
+Metro,Norristown High Speed Line (M),Parkview,164,26,true,true,164,26,agree
+Metro,Norristown High Speed Line (M),Township Line Rd,166,17,true,true,166,17,agree
+Metro,Norristown High Speed Line (M),Penfield,166,17,false,false,166,17,agree
+Metro,Norristown High Speed Line (M),Beechwood-Brookline,166,17,false,false,166,17,agree
+Metro,Norristown High Speed Line (M),Wynnewood Rd,166,17,false,false,166,17,agree
+Metro,Norristown High Speed Line (M),Ardmore Junction,166,17,false,false,166,17,agree
+Metro,Norristown High Speed Line (M),Ardmore Av,166,17,false,false,166,17,agree
+Metro,Norristown High Speed Line (M),Haverford South,166,17,false,false,166,17,agree
+Metro,Norristown High Speed Line (M),Bryn Mawr South,168,17,true,false,168,17,agree
+Metro,Norristown High Speed Line (M),Roberts Rd,168,17,false,false,168,17,agree
+Metro,Norristown High Speed Line (M),Garrett Hill,168,17,false,false,168,17,agree
+Metro,Norristown High Speed Line (M),Stadium,168,17,false,false,168,17,agree
+Metro,Norristown High Speed Line (M),Villanova South,168,17,false,false,168,17,agree
+Metro,Norristown High Speed Line (M),Radnor South,168,17,false,false,168,17,agree
+Metro,Norristown High Speed Line (M),County Line,168,17,true,false,168,17,agree
+Metro,Norristown High Speed Line (M),Matsonford,149,17,false,false,149,17,agree
+Metro,Norristown High Speed Line (M),Gulph Mills,149,17,false,false,149,17,agree
+Metro,Norristown High Speed Line (M),Hughes Park,149,17,false,false,149,17,agree
+Metro,Norristown High Speed Line (M),DeKalb St,149,17,false,false,149,17,agree
+Metro,Norristown High Speed Line (M),Bridgeport,149,17,false,false,149,17,agree
+Metro,Norristown High Speed Line (M),Norristown Transit Center,54,17,false,false,54,17,agree

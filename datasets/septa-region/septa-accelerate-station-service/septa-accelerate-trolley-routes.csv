@@ -1,0 +1,9 @@
+route,name,proposal,named_in_plan,source,stop_count,accessible_stops_today
+T1,13th St to 63rd-Malvern/Overbrook,5-minute peak service; new low-floor trolleys; accessible stops,true,"Accelerate plan pp. 5-6, 39-40; Philadelphia fact sheet p. 1",82,9
+T2,13th St to 61st-Baltimore/Angora,5-minute peak service; new low-floor trolleys; accessible stops,true,"Accelerate plan pp. 5-6, 39-40; Philadelphia fact sheet p. 1",74,13
+T3,13th St to Yeadon or Darby TC,5-minute peak service; new low-floor trolleys; accessible stops,true,"Accelerate plan pp. 5-6, 39-40; Philadelphia fact sheet p. 1",107,16
+T4,13th St to Darby Transit Center,5-minute peak service; new low-floor trolleys; accessible stops; rebuilt Darby Transit Center,true,"Accelerate plan pp. 5-6, 39-40; Delaware County fact sheet p. 2",107,15
+T5,13th St to 80th St/Eastwick,5-minute peak service; new low-floor trolleys; accessible stops,true,"Accelerate plan pp. 5-6, 39-40; Philadelphia fact sheet p. 1",98,15
+D1,Route 101,15-minute or better peak service to Media; new low-floor trolleys; accessible stops,true,"Accelerate plan pp. 5-6, 39-40; Delaware County fact sheet p. 2",72,71
+D2,Route 102,15-minute or better peak service to Sharon Hill; new low-floor trolleys; accessible stops,true,"Accelerate plan pp. 5-6, 39-40; Delaware County fact sheet p. 2",51,50
+G1,63rd-Girard to Richmond-Westmorelnd,"Not named in the plan; only the plan-wide statements (every trolley, every station accessible) could apply",false,Accelerate plan pp. 39-40; Philadelphia fact sheet p. 1,115,115
