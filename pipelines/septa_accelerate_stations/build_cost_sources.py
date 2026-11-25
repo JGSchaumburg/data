@@ -33,6 +33,11 @@ SRC = {
     "lrp_a1": ("DVRPC, Connections 2050 Amendment 1, Table 5 (Sept 2026)", "https://www.dvrpc.org/Reports/26140.pdf"),
     "fy27": ("SEPTA, FY2027 Capital Budget Proposal", "https://www.septa.org/wp-content/uploads/page/planning/SEPTA-FY-2027-Operating-Capital-Budget-Proposal.pdf"),
     "tip27": ("DVRPC, FFY2027 Pennsylvania TIP (draft)", "https://github.com/transit-forward-philly/data/tree/main/analyses/septa-capital-tip-tracker"),
+    "ea": ("SEPTA, Accelerate efficiency and accountability fact sheet", "https://www.septa.org/wp-content/uploads/page/communication/SEPTA_Accelerate_EfficientAccountable_Web_Nov26.pdf"),
+    "budget27": ("SEPTA, FY2027 Adopted Budget", "https://wwww.septa.org/wp-content/uploads/page/planning/SEPTA-Adopted-Budget-FY-2027.pdf"),
+    "n_susq": ("SEPTA news release, Aug 21 2023", "https://wwww.septa.org/news/susquehannadauphin/"),
+    "n_gates": ("SEPTA news release, fare gate contract", "https://wwww.septa.org/news/septa-expands-pilot-program-to-combat-fare-evasion/"),
+    "n_drexel": ("SEPTA news release, Drexel Station at 30th Street", "https://wwww.septa.org/news/drexel-station-at-30th-street-welcomes-septa-customers/"),
     "tip25": ("DVRPC, FY2025 Pennsylvania TIP, MPMS 115472 Projects of Significance (SEPTA)", "https://www.dvrpc.org/tip/pa/map/115472"),
 }
 TEXT = [  # (plan ids, component, $M, qualifier, basis, status, source, page, wording, match)
@@ -50,6 +55,22 @@ TEXT = [  # (plan ids, component, $M, qualifier, basis, status, source, page, wo
      "bucks", "p. 2", "$71M+ Investment", "named"),
     ("", "Station and infrastructure investments, Chester County (fact sheet)", 1000, "more than", "not stated", "planned",
      "chester", "p. 1", "over $1B in station and infrastructure investments", "named"),
+    ("ACC-029", "Conshohocken Station development: revenue to SEPTA (not a cost)", 332, "", "not stated", "revenue over the agreement",
+     "plan", "PDF p. 27", "new revenue source valued at $332 million over the life of the agreement", "named"),
+    ("ACC-030", "Ambler Station development: revenue to SEPTA (not a cost)", 236, "", "not stated", "revenue over the contract",
+     "ea", "p. 2", "170-unit mixed-use development in Ambler Station's parking lot, valued at $236M in new revenue over the life of the contract", "named"),
+    ("ACC-006", "Tasker-Morris Station (B) accessibility", 19.21, "", "not stated", "completed",
+     "budget27", "PDF p. 330", "Tasker-Morris Station (B) 19.21 ... Project complete", "named"),
+    ("ACC-008", "Susquehanna-Dauphin Station accessibility", 24, "", "not stated", "completed (Aug 2023)",
+     "n_susq", "news release", "celebrate the completion of a $24 million project", "named"),
+    ("ACC-007", "Drexel Station at 30th Street: federal BUILD grant", 15, "", "not stated", "completed; funding piece",
+     "n_drexel", "news release", "funded in part through a $15 million U.S. Department of Transportation Better Utilizing Investments to Leverage Development (BUILD) Grant", "named"),
+    ("ACC-007", "Drexel Station at 30th Street: PennDOT funding", 34.2, "", "not stated", "completed; funding piece",
+     "n_drexel", "news release", "and $34.2 million in Pennsylvania Department of Transportation funding", "named"),
+    ("ACC-004", "Full-height fare gates, phase 1 contract (100 gates, 9 stations)", 6.96, "", "not stated", "contract awarded",
+     "n_gates", "news release", "Under the $6.96 million contract, the new gates will be installed at Somerset, Huntingdon", "named"),
+    ("ACC-001", "Transit Police, FY2027 operating budget (294 positions)", 44.797, "", "FY2027 dollars", "annual operating",
+     "budget27", "PDF p. 140", "Transit Police 292 2 294 35,899 8,898 (labor and non-labor, $ thousands)", "named"),
     ("ACC-009; ACC-012; ACC-013; ACC-022; ACC-023; ACC-026; ACC-028", "Bus Revolution capital investments", 184.82, "", "not stated", "programmed (FY2025 TIP)",
      "tip25", "MPMS 115472", "Bus Revolution Capital Investments ($184.82M)", "named"),
     ("ACC-026; ACC-028", "Transit prioritization corridors (incl. Olney Ave)", 59.7, "", "not stated", "programmed (FY2025 TIP)",
@@ -107,6 +128,9 @@ NOTES = {  # keyed by (source key or MRP id, component start)
     "RRMP3": "Part of the more-than-$12 billion above, not in addition to it.",
     "BUSREV": "Total of the four MPMS 115472 bus rows below (transit priority, end of line, micro transit, bus stops); do not add it to them.",
     "NOID": "Not one of the plan's 39 named projects, or a systemwide figure, so no plan project id.",
+    "DREXEL": "One of two funding pieces SEPTA names; SEPTA gives no total, so do not treat either as the project cost.",
+    "POLICE": "Annual operating cost of the whole department, not the cost of reaching 220 officers.",
+    "REVENUE": "Money SEPTA receives from the developer, not a cost; do not add it to costs.",
     "PAT085": "Listed as funded, but Amendment 1 says approximately $726.3 million is deferred after FY 2038; the FY27 capital budget's 12-year total for B cars is $1.0M.",
 }
 RR_UNFUNDED = ("Line", "Station", "Interlocking", "Flyover", "Yard", "Double Track", "Third Track", "Grade Crossing",
@@ -125,7 +149,9 @@ def main(out):
     rows = []
     for ids, comp, m, q, basis, status, src, page, words, match in TEXT:
         note = (NOTES["RRMP9"] if "already plans" in comp else NOTES["RRMP3"] if "additional investment" in comp
-                else NOTES["BUSREV"] if comp.startswith("Bus Revolution") else NOTES["NOID"] if not ids else "")
+                else NOTES["BUSREV"] if comp.startswith("Bus Revolution") else NOTES["DREXEL"] if comp.startswith("Drexel")
+                else NOTES["POLICE"] if comp.startswith("Transit Police, FY2027")
+                else NOTES["REVENUE"] if "revenue to SEPTA" in comp else NOTES["NOID"] if not ids else "")
         rows.append(dict(plan_project_ids=ids, component=comp, figure_millions=f"{m:.2f}", qualifier=q, dollar_basis=basis,
                          status=status, source=SRC[src][0], source_url=SRC[src][1], page_or_id=page, wording=words, match=match, notes=note))
     for r in csv.DictReader(open(ROOT / "datasets/septa-region/dvrpc-lrp-septa-projects/dvrpc-lrp-septa-projects.csv", encoding="utf-8")):
