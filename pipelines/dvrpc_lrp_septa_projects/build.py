@@ -14,7 +14,7 @@ Sources:
         Projects", which updates six funded SEPTA costs from SEPTA's FY27 capital budget.
 
 Every row is a Major Regional Project (MRP) with an ID beginning PAT. Rows are read from the PDF
-text layout; the check at the end fails loudly if the counts change.
+text layout; the checks at the end fail loudly if the counts change or a scope looks cut off.
 """
 import csv
 import re
@@ -32,9 +32,14 @@ EXPECT = {"funded": 39, "unfunded": 45, "amended": 6}
 
 def fetch(url, cache):
     path = Path(cache) / url.rsplit("/", 1)[1]
-    if not path.exists():
+    # a cached file that is not a PDF (say, a saved HTML error page) is fetched again
+    if not path.exists() or path.read_bytes()[:4] != b"%PDF":
         req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
-        path.write_bytes(urllib.request.urlopen(req).read())
+        with urllib.request.urlopen(req, timeout=60) as resp:
+            body = resp.read()
+        if body[:4] != b"%PDF":
+            raise SystemExit(f"{url} did not return a PDF")
+        path.write_bytes(body)
     return path
 
 
@@ -43,35 +48,73 @@ def text(pdf, first=None, last=None):
     return subprocess.run(args, capture_output=True, text=True, check=True).stdout.split("\n")
 
 
-STOP = ("Source", "Table", "F-", "Unfunded", "DELAWARE", "MRP ID")
+STOP = ("Source", "Table", "F-", "Unfunded", "DELAWARE", "MRP ID", "UPDATE:")
+HEADER_REST = re.compile(r"^\s*(Period\*|\(Millions|\(YOE|of \$)")
+ID = re.compile(r"^\s*PA[A-Z]\d{3}")
+# scopes that DVRPC printed without a closing period
+NO_PERIOD = {"PAT087"}
+
+
+def join(parts):
+    """Join wrapped pieces with a space, except after a line-ending hyphen or dash."""
+    out = ""
+    for p in (p.strip() for p in parts):
+        if p:
+            out += p if not out or out.endswith(("-", "—")) else " " + p
+    return out
 
 
 def rows(lines, table, basis):
     out, i = [], 0
+    last = None  # the most recent PAT row, still open for text that resumes on the next page
+    header = None  # column starts from the most recent page header
     while i < len(lines):
         line = lines[i]
+        if line.strip().startswith("MRP ID"):
+            header = {k: line.index(k) for k in ("Facility", "Project Scope", "Location")}
+            i += 1
+            continue
         m = re.match(r"^(\s*)(PAT\d{3})(\s+)", line)
         cost = re.search(r"\$\s?([\d,]+\.\d)", line)
+        if ID.match(line):
+            last = None
         if not (m and cost):
+            # text at the top of a page, after the repeated header and before the first ID,
+            # continues the last row of the previous page
+            if last and header and line.strip() and not HEADER_REST.match(line) \
+                    and not line.strip().startswith(STOP):
+                cols = sorted((v, k) for k, v in header.items())
+                for seg in re.finditer(r"\S+(?: \S+)*", line):
+                    col = [k for v, k in cols if v <= seg.start() + 2]
+                    key = {"Facility": "fac", "Project Scope": "scope", "Location": "loc"}.get(col[-1] if col else "")
+                    if key:
+                        last[key].append(seg.group())
             i += 1
             continue
         fac0 = m.end()
         sc0 = fac0 + re.search(r"\S(\s{2,})\S", line[fac0:]).end() - 1
         segs = [s.start() for s in re.finditer(r"\S+(?: \S+)*", line)]
+        # the location column starts at least 40 characters right of where the scope starts;
+        # the scope column is never narrower than that, so nearer segments are scope text
         loc0 = next((p for p in segs if sc0 + 40 <= p < cost.start()), cost.start())
-        fac, scope, loc = [line[fac0:sc0]], [line[sc0:loc0]], [line[loc0:cost.start()]]
+        parts = dict(fac=[line[fac0:sc0]], scope=[line[sc0:loc0]], loc=[line[loc0:cost.start()]])
         j = i + 1
-        while j < len(lines) and lines[j].strip() and not re.match(r"^\s*PA[TR]\d{3}", lines[j]) \
+        while j < len(lines) and lines[j].strip() and not ID.match(lines[j]) \
                 and not lines[j].strip().startswith(STOP):
             t = lines[j]
-            fac.append(t[fac0:sc0]); scope.append(t[sc0:loc0]); loc.append(t[loc0:cost.start()])
+            parts["fac"].append(t[fac0:sc0]); parts["scope"].append(t[sc0:loc0]); parts["loc"].append(t[loc0:cost.start()])
             j += 1
-        clean = lambda parts: " ".join(p.strip() for p in parts if p.strip() and not re.fullmatch(r"[\d–-]+", p.strip()))
-        # the plan-period column (e.g. "1–2") sits beside the location in the layout; drop it
-        location = re.sub(r"\s+", " ", re.sub(r"(?<!\S)\d(?:[–-]\d)?(?!\S)", " ", clean(loc))).strip()
-        out.append(dict(table=table, mrp_id=m.group(2), facility=clean(fac), scope=clean(scope),
-                        location=location, cost_millions=cost.group(1).replace(",", ""), dollar_basis=basis))
+        last = parts
+        out.append(dict(table=table, mrp_id=m.group(2), parts=parts,
+                        cost_millions=cost.group(1).replace(",", ""), dollar_basis=basis))
         i = j
+    for r in out:
+        p = r.pop("parts")
+        keep = lambda xs: [x for x in xs if not re.fullmatch(r"[\d–-]+", x.strip())]
+        # the plan-period column (e.g. "1–2") sits beside the location in the layout; drop it
+        loc = re.sub(r"(?<!\S)\d(?:[–-]\d)?(?!\S)", " ", join(keep(p["loc"])))
+        r.update(facility=join(keep(p["fac"])), scope=join(keep(p["scope"])),
+                 location=re.sub(r"\s+", " ", loc).strip())
     return out
 
 
@@ -94,7 +137,9 @@ def amendments(lines):
                 piece = t.strip() if indent >= col else (t[col:col + 45].strip() if len(t) > col else "")
                 if piece:
                     note.append(piece)
-            out[m.group(1)] = (m.group(4).replace(",", ""), " ".join(note))
+            # drop footnote markers, e.g. the "5" in "preliminary infrastructure work, 5 and shift"
+            text_ = re.sub(r"(?<=[,.;]) \d{1,2}(?= )", "", join(note))
+            out[m.group(1)] = (m.group(4).replace(",", ""), text_)
     return out
 
 
@@ -108,6 +153,9 @@ def main(out_csv, cache=None):
     got = {"funded": len(funded), "unfunded": len(unfunded), "amended": len(amended)}
     if got != EXPECT:
         raise SystemExit(f"row counts changed: {got} (expected {EXPECT}); check the PDF layout")
+    cut = [r["mrp_id"] for r in funded + unfunded if not r["scope"].endswith(".") and r["mrp_id"] not in NO_PERIOD]
+    if cut:
+        raise SystemExit(f"scope text looks cut off (no closing period): {cut}; check the PDF layout")
     for r in funded + unfunded:
         a = amended.get(r["mrp_id"]) if r["table"] == "F-25 funded" else None
         r["amendment1_cost_millions"] = a[0] if a else ""
