@@ -130,6 +130,7 @@ NOTES = {  # keyed by (source key or MRP id, component start)
     "NOID": "Not one of the plan's 39 named projects, or a systemwide figure, so no plan project id.",
     "DREXEL": "One of two funding pieces SEPTA names; SEPTA gives no total, so do not treat either as the project cost.",
     "POLICE": "Annual operating cost of the whole department, not the cost of reaching 220 officers.",
+    "GATES": "Covers 100 gates at nine stations (Somerset, Huntingdon and others), not the 69th Street pilot or the 13 stations planned next.",
     "REVENUE": "Money SEPTA receives from the developer, not a cost; do not add it to costs.",
     "PAT085": "Listed as funded, but Amendment 1 says approximately $726.3 million is deferred after FY 2038; the FY27 capital budget's 12-year total for B cars is $1.0M.",
 }
@@ -151,7 +152,8 @@ def main(out):
         note = (NOTES["RRMP9"] if "already plans" in comp else NOTES["RRMP3"] if "additional investment" in comp
                 else NOTES["BUSREV"] if comp.startswith("Bus Revolution") else NOTES["DREXEL"] if comp.startswith("Drexel")
                 else NOTES["POLICE"] if comp.startswith("Transit Police, FY2027")
-                else NOTES["REVENUE"] if "revenue to SEPTA" in comp else NOTES["NOID"] if not ids else "")
+                else NOTES["REVENUE"] if "revenue to SEPTA" in comp
+                else NOTES["GATES"] if comp.startswith("Full-height fare gates") else NOTES["NOID"] if not ids else "")
         rows.append(dict(plan_project_ids=ids, component=comp, figure_millions=f"{m:.2f}", qualifier=q, dollar_basis=basis,
                          status=status, source=SRC[src][0], source_url=SRC[src][1], page_or_id=page, wording=words, match=match, notes=note))
     for r in csv.DictReader(open(ROOT / "datasets/septa-region/dvrpc-lrp-septa-projects/dvrpc-lrp-septa-projects.csv", encoding="utf-8")):
