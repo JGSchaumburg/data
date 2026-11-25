@@ -36,7 +36,7 @@ Script: [`pipelines/dvrpc_lrp_septa_projects/build.py`](../../../pipelines/dvrpc
 - **Funded and unfunded costs are in different dollars** (year of expenditure versus 2025 dollars). Do not add them together.
 - **The plan period column is not kept.** It sits next to the location in the PDF layout; see the PDF for each project's period.
 - **Unfunded items are not commitments.** They are projects DVRPC lists as needs without identified funding.
-- **Amendment 1's PAT001 note says the cost rose "from $98.53 million"**, while the May appendix prints $96.5M. Both are kept as printed.
+- **Amendment 1's PAT001 note says the cost rose "from $98.53 million"**, while the May appendix prints $96.5M. Both are kept as printed. Likewise PAT085 (B cars): the appendix prints $173.6M and Amendment 1 says the cost rose "from $127 million" to $727.3M, of which "approximately $726.3 million is deferred after FY 2038."
 
 ## License
 

@@ -67,7 +67,8 @@ def rows(lines, table, basis):
             fac.append(t[fac0:sc0]); scope.append(t[sc0:loc0]); loc.append(t[loc0:cost.start()])
             j += 1
         clean = lambda parts: " ".join(p.strip() for p in parts if p.strip() and not re.fullmatch(r"[\d–-]+", p.strip()))
-        location = re.sub(r"\s+\d(?:[–-]\d)?$", "", clean(loc))  # drop the plan-period column
+        # the plan-period column (e.g. "1–2") sits beside the location in the layout; drop it
+        location = re.sub(r"\s+", " ", re.sub(r"(?<!\S)\d(?:[–-]\d)?(?!\S)", " ", clean(loc))).strip()
         out.append(dict(table=table, mrp_id=m.group(2), facility=clean(fac), scope=clean(scope),
                         location=location, cost_millions=cost.group(1).replace(",", ""), dollar_basis=basis))
         i = j

@@ -48,9 +48,9 @@ TEXT = [  # (plan ids, component, $M, qualifier, basis, status, source, page, wo
      "plan", "PDF p. 13", "More than $455 million in substation and power improvements are required over the next 12 years", "named"),
     ("", "Cornwells Heights Station reconstruction (Bucks fact sheet; not in the main plan)", 71, "more than", "not stated", "planned",
      "bucks", "p. 2", "$71M+ Investment", "named"),
-    ("", "Station and infrastructure, Paoli/Thorndale corridor (Chester fact sheet)", 1000, "more than", "not stated", "planned",
+    ("", "Station and infrastructure investments, Chester County (fact sheet)", 1000, "more than", "not stated", "planned",
      "chester", "p. 1", "over $1B in station and infrastructure investments", "named"),
-    ("ACC-009; ACC-026; ACC-027; ACC-028", "Bus Revolution capital investments", 184.82, "", "not stated", "programmed (FY2025 TIP)",
+    ("ACC-009; ACC-012; ACC-013; ACC-022; ACC-023; ACC-026; ACC-028", "Bus Revolution capital investments", 184.82, "", "not stated", "programmed (FY2025 TIP)",
      "tip25", "MPMS 115472", "Bus Revolution Capital Investments ($184.82M)", "named"),
     ("ACC-026; ACC-028", "Transit prioritization corridors (incl. Olney Ave)", 59.7, "", "not stated", "programmed (FY2025 TIP)",
      "tip25", "MPMS 115472", "Transit Prioritization Projects $59.7M (Prior Years - FY 2036) ... Olney Avenue, 19th/20th Streets, 7th/8th Streets, Chestnut/Walnut", "named"),
@@ -71,7 +71,7 @@ TEXT = [  # (plan ids, component, $M, qualifier, basis, status, source, page, wo
     ("ACC-033; ACC-034", "Norristown corridor improvements", 25.08, "", "not stated", "programmed (FY2025 TIP)",
      "tip25", "MPMS 115472", "Norristown Corridor Improvements $25.08M", "named"),
     ("ACC-033", "North Philadelphia infrastructure", 6.96, "", "not stated", "programmed (FY2025 TIP)",
-     "tip25", "MPMS 115472", "North Philadelphia Infrastructure $6.96M", "named"),
+     "tip25", "MPMS 115472", "North Philadelphia Infrastructure $6.96M", "inferred"),
     ("", "Coatesville service restoration (design)", 7, "", "not stated", "programmed (FY2025 TIP)",
      "tip25", "MPMS 115472", "Coatesville Service Restoration $7M", "named"),
     ("ACC-021", "Mainline-Schuylkill bridges and interlockings", 400, "", "not stated", "programmed (FY2025 TIP)",
@@ -92,9 +92,9 @@ TIP27_ITEMS = [  # sub-projects listed in FFY2027 TIP descriptions (repo table),
     ("ACC-001", "Transit Police equipment (capital, not staffing)", 15.89, "121367", "SEPTA Transit Police Department Equipment – $15.89M (Ongoing)", "related"),
 ]
 DVRPC = {  # DVRPC MRP id -> (plan ids, match)
-    "PAT024": ("ACC-014; ACC-015", "named"), "PAT025": ("ACC-014", "named"), "PAT026": ("ACC-015", "named"),
-    "PAT027": ("ACC-015", "named"), "PAT028": ("ACC-015", "named"), "PAT014": ("ACC-016", "named"),
-    "PAT085": ("ACC-017", "named"), "PAT051": ("ACC-018", "named"), "PAT086": ("ACC-019; ACC-035", "named"),
+    "PAT024": ("ACC-014; ACC-015", "named"), "PAT025": ("ACC-014", "named"), "PAT026": ("ACC-014", "named"),
+    "PAT027": ("ACC-015", "named"), "PAT028": ("ACC-015", "related"), "PAT014": ("ACC-016", "named"),
+    "PAT085": ("ACC-017", "named"), "PAT051": ("ACC-018", "named"), "PAT086": ("ACC-019", "named"),
     "PAT008": ("ACC-020", "named"), "PAT023": ("ACC-009", "named"), "PAT040": ("ACC-021", "named"),
     "PAT001": ("ACC-036; ACC-037", "named"), "PAT016": ("ACC-038", "named"), "PAT071": ("ACC-033", "inferred"),
     "PAT068": ("", "named"), "PAT002": ("", "related"), "PAT087": ("ACC-009", "related"),
@@ -102,6 +102,13 @@ DVRPC = {  # DVRPC MRP id -> (plan ids, match)
 # Unfunded rows that are expansions, parking, bridge programs or relocations, not the Master Plan's rebuild
 NOT_RRMP = {"PAT037", "PAT090", "PAT038", "PAT088", "PAT011", "PAT022", "PAT003", "PAT004", "PAT005", "PAT010",
             "PAT018", "PAT021", "PAT039", "PAT089"}
+NOTES = {  # keyed by (source key or MRP id, component start)
+    "RRMP9": "Part of the more-than-$12 billion above, not in addition to it.",
+    "RRMP3": "Part of the more-than-$12 billion above, not in addition to it.",
+    "BUSREV": "Total of the four MPMS 115472 bus rows below (transit priority, end of line, micro transit, bus stops); do not add it to them.",
+    "NOID": "Not one of the plan's 39 named projects, or a systemwide figure, so no plan project id.",
+    "PAT085": "Listed as funded, but Amendment 1 says approximately $726.3 million is deferred after FY 2038; the FY27 capital budget's 12-year total for B cars is $1.0M.",
+}
 RR_UNFUNDED = ("Line", "Station", "Interlocking", "Flyover", "Yard", "Double Track", "Third Track", "Grade Crossing",
                "Quad", "Trunk", "Separation", "Turnback")
 FY27 = {  # FY27 capital budget program line -> plan ids
@@ -117,8 +124,10 @@ TIP27 = {"123961": "ACC-014; ACC-015", "123962": "ACC-009"}
 def main(out):
     rows = []
     for ids, comp, m, q, basis, status, src, page, words, match in TEXT:
+        note = (NOTES["RRMP9"] if "already plans" in comp else NOTES["RRMP3"] if "additional investment" in comp
+                else NOTES["BUSREV"] if comp.startswith("Bus Revolution") else NOTES["NOID"] if not ids else "")
         rows.append(dict(plan_project_ids=ids, component=comp, figure_millions=f"{m:.2f}", qualifier=q, dollar_basis=basis,
-                         status=status, source=SRC[src][0], source_url=SRC[src][1], page_or_id=page, wording=words, match=match))
+                         status=status, source=SRC[src][0], source_url=SRC[src][1], page_or_id=page, wording=words, match=match, notes=note))
     for r in csv.DictReader(open(ROOT / "datasets/septa-region/dvrpc-lrp-septa-projects/dvrpc-lrp-septa-projects.csv", encoding="utf-8")):
         funded = r["table"].startswith("F-25")
         if r["mrp_id"] in DVRPC:
@@ -132,21 +141,22 @@ def main(out):
                          dollar_basis="year of expenditure" if funded else "2025 dollars",
                          status="funded (long-range plan)" if funded else "unfunded (long-range plan)",
                          source=SRC[src][0], source_url=SRC[src][1], page_or_id=r["mrp_id"],
-                         wording=(r["amendment1_note"] or r["scope"]), match=match))
+                         wording=(r["amendment1_note"] or r["scope"]), match=match,
+                         notes=NOTES.get(r["mrp_id"], NOTES["NOID"] if not ids else "")))
     for r in csv.DictReader(open(ROOT / "analyses/septa-capital-tip-tracker/data/septa_fy27_capital_projects.csv", encoding="utf-8")):
         if r["project"] in FY27:
             rows.append(dict(plan_project_ids=FY27[r["project"]], component=r["project"], figure_millions=f'{float(r["budget_musd"]):.2f}', qualifier="",
                              dollar_basis="not stated", status="FY27 capital budget, total project cost", source=SRC["fy27"][0],
-                             source_url=SRC["fy27"][1], page_or_id=r["cpms"], wording="Total project cost in the FY27 capital budget", match="named"))
+                             source_url=SRC["fy27"][1], page_or_id=r["cpms"], wording="Total project cost in the FY27 capital budget", match="named", notes=""))
     for r in csv.DictReader(open(ROOT / "analyses/septa-capital-tip-tracker/data/dvrpc_pa_tip_ffy2027_draft.csv", encoding="utf-8")):
         if r["mpms"] in TIP27:
             rows.append(dict(plan_project_ids=TIP27[r["mpms"]], component=r["title"], figure_millions=f'{float(r["total_cost"]):.2f}', qualifier="",
                              dollar_basis="not stated", status="programmed (FFY2027 TIP)", source=SRC["tip27"][0], source_url=SRC["tip27"][1],
-                             page_or_id=f'MPMS {r["mpms"]}', wording=r["description"][:200], match="named"))
+                             page_or_id=f'MPMS {r["mpms"]}', wording=r["description"][:200], match="named", notes=""))
     for ids, comp, m, mpms, words, match in TIP27_ITEMS:
         rows.append(dict(plan_project_ids=ids, component=comp, figure_millions=f"{m:.2f}", qualifier="", dollar_basis="not stated",
                          status="programmed (FFY2027 TIP)", source=SRC["tip27"][0], source_url=SRC["tip27"][1],
-                         page_or_id=f"MPMS {mpms}", wording=words, match=match))
+                         page_or_id=f"MPMS {mpms}", wording=words, match=match, notes=""))
     with open(out, "w", newline="", encoding="utf-8") as fh:
         w = csv.DictWriter(fh, fieldnames=list(rows[0].keys()), lineterminator="\n")
         w.writeheader()
