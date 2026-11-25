@@ -39,7 +39,7 @@ Script: [`pipelines/septa_accelerate_stations/build.py`](../../../pipelines/sept
 | `septa-accelerate-district-summary.csv` | CSV | One row per House and Senate district with at least half its population in the five Pennsylvania SEPTA counties or with a station or trolley stop, and per Council district: counts from the files above plus the member, 2026 result, transit funding vote and Regional Rail boardings |
 | `septa-accelerate-plan-projects.csv` | CSV | The 39 named projects in the Accelerate plan, with status, plan pages and the districts each reaches |
 | `septa-accelerate-plan-projects.geojson` | GeoJSON | The 20 of those placed here, for mapping |
-| `septa-accelerate-cost-sources.csv` | CSV | 75 public dollar figures for Accelerate components, each with source, page and wording |
+| `septa-accelerate-cost-sources.csv` | CSV | 85 public dollar figures for Accelerate components, each with source, page and wording |
 | `septa-bus-routes.csv` | CSV | Every SEPTA bus and trackless trolley route, 155 rows: measured frequency by day, SEPTA's frequent marking, and the districts it runs through |
 | `census-geocoder-check.csv` | CSV | Independent check of the 77 point-in-polygon station rows against the Census geocoder |
 

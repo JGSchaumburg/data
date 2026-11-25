@@ -79,6 +79,18 @@ TEXT = [  # (plan ids, component, $M, qualifier, basis, status, source, page, wo
     ("ACC-013", "Bus stop improvements", 24.30, "", "not stated", "programmed (FY2025 TIP)",
      "tip25", "MPMS 115472", "Bus Stop Improvements $24.30M", "inferred"),
 ]
+TIP27_ITEMS = [  # sub-projects listed in FFY2027 TIP descriptions (repo table), checked against the text
+    ("ACC-005", "Rail transit wayfinding and signage", 29.00, "77183", "Rail Transit Wayfinding & Signage - $29.00M (Prior Years – FY 2028)", "named"),
+    ("ACC-032", "69th Street Transportation Center", 10.00, "77183", "69th Street Transportation Center - $10.00M (FY 2038 - FY 2039)", "related"),
+    ("ACC-012", "Micro transit service", 8.50, "77183", "Micro Transit Service $8.50M (Prior Years - FY 2027) Activities include acquisition of 25 ADA accessible vehicles", "inferred"),
+    ("ACC-023", "South Philadelphia Transportation Center", 21.56, "123962", "South Philadelphia Transportation Center – ($21.56M) – Prior Years – 2028", "named"),
+    ("ACC-026; ACC-028", "Transit prioritization corridors (incl. Olney Ave)", 10.0, "123962", "Transit Prioritization Projects $10.0M (Prior Years - FY 2038) ... Olney Avenue, 19th/20th Streets, 7th/8th Streets", "named"),
+    ("ACC-013", "Bus stop signage and ePaper", 6.0, "123962", "Bus Stop Signage & ePaper $6.0M (Prior Years – FY 2027)", "named"),
+    ("ACC-004", "Fare evasion technology program", 28.03, "121367", "Fare Evasion Technology Program - $28.03M (Prior Years – FY2028)", "inferred"),
+    ("ACC-002; ACC-003", "Vacuum cleaning trains", 66.81, "121367", "Vacuum Cleaning Trains - $66.81M (Prior Years – FY 2034)", "related"),
+    ("ACC-002; ACC-003", "Cleaning equipment", 16.72, "121367", "Cleaning Equipment – $16.72M (Ongoing)", "related"),
+    ("ACC-001", "Transit Police equipment (capital, not staffing)", 15.89, "121367", "SEPTA Transit Police Department Equipment – $15.89M (Ongoing)", "related"),
+]
 DVRPC = {  # DVRPC MRP id -> (plan ids, match)
     "PAT024": ("ACC-014; ACC-015", "named"), "PAT025": ("ACC-014", "named"), "PAT026": ("ACC-015", "named"),
     "PAT027": ("ACC-015", "named"), "PAT028": ("ACC-015", "named"), "PAT014": ("ACC-016", "named"),
@@ -131,6 +143,10 @@ def main(out):
             rows.append(dict(plan_project_ids=TIP27[r["mpms"]], component=r["title"], figure_millions=f'{float(r["total_cost"]):.2f}', qualifier="",
                              dollar_basis="not stated", status="programmed (FFY2027 TIP)", source=SRC["tip27"][0], source_url=SRC["tip27"][1],
                              page_or_id=f'MPMS {r["mpms"]}', wording=r["description"][:200], match="named"))
+    for ids, comp, m, mpms, words, match in TIP27_ITEMS:
+        rows.append(dict(plan_project_ids=ids, component=comp, figure_millions=f"{m:.2f}", qualifier="", dollar_basis="not stated",
+                         status="programmed (FFY2027 TIP)", source=SRC["tip27"][0], source_url=SRC["tip27"][1],
+                         page_or_id=f"MPMS {mpms}", wording=words, match=match))
     with open(out, "w", newline="", encoding="utf-8") as fh:
         w = csv.DictWriter(fh, fieldnames=list(rows[0].keys()), lineterminator="\n")
         w.writeheader()
