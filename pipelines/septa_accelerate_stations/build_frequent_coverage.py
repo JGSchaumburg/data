@@ -1,6 +1,7 @@
 """Count residents within a quarter mile of frequent transit in each House, Senate and Council district.
 
-Usage (needs geopandas; run build.py and build_district_summary.py first):
+Usage (needs geopandas 1.0 or later, for the dwithin join; run build.py, ../septa_bus_routes/build.py and
+build_district_summary.py first):
     python build_frequent_coverage.py OUTPUT_DIR [CACHE_DIR]
 
 Sources:
@@ -11,6 +12,8 @@ Sources:
         API serves; the API answered every keyless request with a "Missing Key" page on 2026-11-25. The
         five county totals are checked against the published 2020 counts below.
     SEPTA GTFS release v202611010 (through build.py): stops on the frequent bus routes and the trolley routes.
+    datasets/septa-region/septa-bus-routes/septa-bus-routes.csv: which bus routes are frequent
+        (septa_frequent_weekday) and their measured Wednesday, Saturday and Sunday average headways.
     datasets/septa-region/septa-accelerate-station-service/septa-accelerate-stations.csv:
         Metro station locations and the Regional Rail stations in the proposed 15-minute tier.
     datasets/septa-region/septa-accelerate-station-service/septa-accelerate-district-summary.csv:
@@ -27,8 +30,9 @@ Method:
     blocks nest inside House and Senate districts.
 
     Two stop sets:
-    frequent bus      stops on the GTFS bus and trackless trolley routes SEPTA colors EF3340 ("Frequent
-                      Red", every 15 minutes or better 6 am to 9 pm weekdays), 25 routes in this release.
+    frequent bus      stops on the bus and trackless trolley routes with septa_frequent_weekday = true in the
+                      bus routes dataset (SEPTA's "Frequent Red" color, every 15 minutes or better 6 am to
+                      9 pm weekdays), 25 routes in this release.
                       Every stop the route serves counts, including stops on branches that get only part
                       of the route's trips.
     frequent transit  frequent bus, plus every Metro station (L, B, M), every stop on the trolley routes
@@ -41,7 +45,11 @@ Method:
 
 Writes to OUTPUT_DIR:
     septa-frequent-transit-coverage-by-district.csv   one row per district in the district summary
-Prints county totals (Philadelphia is the citywide figure) and chamber totals for checking.
+Prints county totals (Philadelphia is the citywide figure) and chamber totals for checking, and two
+Philadelphia checks on how much the definition moves the count (quoted in the dataset README):
+    seven-day frequent  bus routes averaging 15 minutes or better on all three measured days (Wednesday,
+                        Saturday, Sunday) in the bus routes file, plus Metro stations and T1-T5 stops
+    eighth mile         the frequent bus stop set with 660 feet in place of 1,320
 """
 import csv
 import io
@@ -60,10 +68,10 @@ ab = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(ab)
 
 OUT_DIR = ab.D / "septa-region/septa-accelerate-station-service"
+BUS_CSV = ab.D / "septa-region/septa-bus-routes/septa-bus-routes.csv"
 QUARTER_MILE_FT = 1320  # PROJ is EPSG:2272, in feet
-FREQUENT_RED = "EF3340"
-BUS_TYPES = {"3", "11"}
-NOT_BUS = {"L1", "B1", "B2", "B3", "M1", "T1", "T2", "T3", "T4", "T5", "D1", "D2", "G1"}
+EIGHTH_MILE_FT = 660
+T_ROUTES = ["T1", "T2", "T3", "T4", "T5"]
 TROLLEY = ["T1", "T2", "T3", "T4", "T5", "D1", "D2", "G1"]
 PL_URL = ("https://www2.census.gov/programs-surveys/decennial/2020/data/01-Redistricting_File--PL_94-171/"
           "Pennsylvania/pa2020.pl.zip")
@@ -100,9 +108,9 @@ def pl_blocks(cache_dir):
     return gpd.GeoDataFrame(b, geometry=points(b["lon"], b["lat"]).geometry.values, crs=ab.PROJ)
 
 
-def near(blocks, stops):
-    """Boolean Series: block internal point within a quarter mile of any stop."""
-    j = gpd.sjoin(blocks[["geometry"]], stops, how="inner", predicate="dwithin", distance=QUARTER_MILE_FT)
+def near(blocks, stops, feet=QUARTER_MILE_FT):
+    """Boolean array: block internal point within `feet` (default a quarter mile) of any stop."""
+    j = gpd.sjoin(blocks[["geometry"]], stops, how="inner", predicate="dwithin", distance=feet)
     return blocks.index.isin(j.index.unique())
 
 
@@ -121,8 +129,13 @@ def main(out_dir, cache_dir=None):
     # --- stops ---
     bus = ab.gtfs(cache_dir)["bus"]
     stop_xy = {s["stop_id"]: (float(s["stop_lon"]), float(s["stop_lat"])) for s in bus["stops"] if s["stop_lat"]}
-    frequent = {r["route_id"] for r in bus["routes"]
-                if r["route_color"].upper() == FREQUENT_RED and r["route_type"] in BUS_TYPES and r["route_id"] not in NOT_BUS}
+    # The bus routes file names a route by GTFS route_short_name, or route_id where that is blank.
+    route_id = {(r["route_short_name"] or r["route_id"]): r["route_id"] for r in bus["routes"]}
+    bus_csv = list(csv.DictReader(open(BUS_CSV, encoding="utf-8")))
+    frequent = {route_id[r["route"]] for r in bus_csv if r["septa_frequent_weekday"] == "true"}
+    days = ("wed_avg_headway_min", "sat_avg_headway_min", "sun_avg_headway_min")
+    seven_day = {route_id[r["route"]] for r in bus_csv
+                 if r["service_kind"] == "regular" and all(r[k] and float(r[k]) <= 15 for k in days)}
 
     def route_stops(routes):
         ids = sorted({r["stop_id"] for r in bus["route_stops"] if r["route_id"] in routes and r["stop_id"] in stop_xy})
@@ -187,6 +200,16 @@ def main(out_dir, cache_dir=None):
     for ch in CHAMBERS:
         tot = sum(r["population_2020"] for r in rows if r["chamber"] == ch)
         print(f"{ch}: {sum(r['chamber'] == ch for r in rows)} districts, population {tot:,}")
+
+    # Definition checks, Philadelphia only (quoted in the dataset README).
+    phl = blocks[blocks["county"] == "101"]
+    seven = near(phl, as_gdf(route_stops(seven_day) + metro + route_stops(set(T_ROUTES))))
+    eighth = near(phl, as_gdf(bus_xy), EIGHTH_MILE_FT)
+    print("\nPhiladelphia definition checks (2020 population)")
+    print(f"seven-day frequent bus ({', '.join(sorted(seven_day))}) + Metro + T1-T5, quarter mile: "
+          f"{int(phl.loc[seven, 'P1_001N'].sum()):,}")
+    print(f"frequent bus, quarter mile: {int(phl.loc[phl['bus'], 'P1_001N'].sum()):,}; "
+          f"eighth mile: {int(phl.loc[eighth, 'P1_001N'].sum()):,}")
 
 
 if __name__ == "__main__":

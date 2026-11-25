@@ -1,10 +1,11 @@
 """Every public dollar figure found for SEPTA's Accelerate plan, tied to the plan's projects.
 
 Usage:
-    python build_cost_sources.py OUTPUT_CSV
+    python build_cost_sources.py [OUTPUT_CSV]
+OUTPUT_CSV defaults to datasets/septa-region/septa-accelerate-station-service/septa-accelerate-cost-sources.csv.
 
-The Accelerate plan gives no total and no per-project cost. This collects the figures that public
-documents do give, one row per figure, each with its source, page and wording. Nothing is added up
+The Accelerate plan gives no total and prices only a few items (the $89.9 million Crum Creek Viaduct, more
+than $455 million for power). This collects those and the figures other public documents give, one row per figure, each with its source, page and wording. Nothing is added up
 or divided by district: the figures come in different dollar bases (year of expenditure, 2025
 dollars, unstated), cover different scopes, and several overlap.
 
@@ -120,7 +121,7 @@ DVRPC = {  # DVRPC MRP id -> (plan ids, match)
     "PAT001": ("ACC-036; ACC-037", "named"), "PAT016": ("ACC-038", "named"), "PAT071": ("ACC-033", "inferred"),
     "PAT068": ("", "named"), "PAT002": ("", "related"), "PAT087": ("ACC-009", "related"),
 }
-# Unfunded rows that are expansions, parking, bridge programs or relocations, not the Master Plan's rebuild
+# Unfunded rows that are expansions, parking, bridge programs or relocations, left out of the keyword match below
 NOT_RRMP = {"PAT037", "PAT090", "PAT038", "PAT088", "PAT011", "PAT022", "PAT003", "PAT004", "PAT005", "PAT010",
             "PAT018", "PAT021", "PAT039", "PAT089"}
 NOTES = {  # keyed by (source key or MRP id, component start)
@@ -161,7 +162,7 @@ def main(out):
         if r["mrp_id"] in DVRPC:
             ids, match = DVRPC[r["mrp_id"]]
         elif not funded and any(k.lower() in r["facility"].lower() for k in RR_UNFUNDED) and r["mrp_id"] not in NOT_RRMP:
-            ids, match = "ACC-033", "inferred"  # Regional Rail rebuild items; the table does not name the Master Plan
+            ids, match = "ACC-033", "inferred"  # Regional Rail items matched by keyword; the table does not name the Master Plan
         else:
             continue
         src = "lrp_a1" if r["amendment1_cost_millions"] else "lrp"

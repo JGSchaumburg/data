@@ -1,7 +1,7 @@
 """Summarize the Accelerate station data by PA House, PA Senate and Philadelphia Council district.
 
 Usage:
-    python build_district_summary.py OUTPUT_CSV
+    python build_district_summary.py [OUTPUT_CSV]   (defaults to the district summary in OUT_DIR)
 
 Reads only files already in this repo (no downloads), relative to the repo root:
     datasets/septa-region/septa-accelerate-station-service/septa-accelerate-stations.csv
@@ -9,7 +9,8 @@ Reads only files already in this repo (no downloads), relative to the repo root:
     datasets/septa-region/septa-accelerate-station-service/septa-accelerate-plan-projects.csv
     datasets/septa-region/septa-bus-routes/septa-bus-routes.csv
     datasets/septa-region/septa-accelerate-station-service/septa-frequent-transit-coverage-by-district.csv
-        (two population shares, copied as they are)
+        (two population shares, copied as they are; a warning goes to stderr if the file is missing or its
+        districts do not match this file's rows)
     datasets/septa-region/septa-regional-rail-stations/septa-regional-rail-stations.csv
         (Weekday_Total_Boards, matched on stop_id)
     datasets/pennsylvania/legislators-2025-2026/records/
@@ -94,8 +95,11 @@ def main(out_path):
                 plan[(ch, d)].append(r["name"])
 
     # Bus routes whose GTFS shapes cross the district; "frequent" is SEPTA's weekday Frequent Red network.
+    # Regular routes only: school trippers, overnight, rail replacement and no-trip routes are left out.
     bus, fbus = defaultdict(set), defaultdict(list)
     for r in csv.DictReader(open(D / "septa-region/septa-bus-routes/septa-bus-routes.csv", encoding="utf-8")):
+        if r["service_kind"] != "regular":
+            continue
         for ch in ("house", "senate", "council"):
             for d in filter(None, (x.strip() for x in r[f"{ch}_districts"].split(";"))):
                 bus[(ch, d)].add(r["route"])
@@ -158,6 +162,7 @@ def main(out_path):
         routes[key].add(t["route"])
 
     out = []
+    uncovered = []
     for (ch, d), counts in rows.items():
         row = {c: counts.get(c, 0) for c in COLUMNS}
         row.update(chamber=ch, district=d,
@@ -170,6 +175,8 @@ def main(out_path):
                    frequent_bus_routes=len(fbus[(ch, d)]),
                    frequent_bus_route_names="; ".join(fbus[(ch, d)]))
         cov = coverage.get((ch, d), {})
+        if coverage and not cov:
+            uncovered.append(f"{ch} {d}")
         for c in ("share_near_frequent_bus", "share_near_frequent_transit_incl_rr15_plan"):
             row[c] = cov.get(c, "")
         for c in ("member_2025_26", "party_2025_26", "seat_2026_status", "winner_2026", "winner_party_2026",
@@ -188,6 +195,16 @@ def main(out_path):
             pro = PRO[roll[FUNDING_VOTE[ch]]["pro_position"]]
             row["transit_funding_vote_pro_transit"] = ("true" if v["vote"] == pro else "false" if v["vote"] in ("Y", "N") else "") if v else ""
         out.append(row)
+
+    if not coverage:
+        print(f"warning: {cov_path.name} not found; share columns left blank. "
+              "Run build_frequent_coverage.py, then this script again.", file=sys.stderr)
+    extra = set(coverage) - {(r["chamber"], r["district"]) for r in out}
+    if uncovered or extra:
+        print(f"warning: {cov_path.name} does not match the summary rows "
+              f"(no coverage row for {len(uncovered)}: {', '.join(sorted(uncovered)) or 'none'}; "
+              f"{len(extra)} coverage rows not in the summary). Share columns are blank where missing. "
+              "Rerun build_frequent_coverage.py, then this script again.", file=sys.stderr)
 
     order = {"house": 0, "senate": 1, "council": 2}
     out.sort(key=lambda r: (order[r["chamber"]], int(r["district"])))
