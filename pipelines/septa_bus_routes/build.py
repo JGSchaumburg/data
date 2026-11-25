@@ -23,11 +23,23 @@ Frequency is measured from the schedule: for each route and direction, the trips
 between 7:00 and 19:00 on Wednesday 2026-11-18, Saturday 2026-11-21 and Sunday 2026-11-22.
 `*_avg_headway_min` is 720 minutes divided by those trips, taking the less frequent direction.
 `*_max_gap_min` is the longest wait in that window, counting from 7:00 to the first trip and
-from the last trip to 19:00.
+from the last trip to 19:00. Only directions with at least two trips in the window are measured,
+so a loop that runs one way only (310, LUCYGO, LUCYGR) gets a value from that one direction. A
+day is blank only when no direction has two trips.
+
+`service_kind`, from the GTFS route_id, so district counts can leave out special services:
+    no trips          the route has no trips at all in this release
+    overnight         route_id ends in _OWL (L1 OWL, B1 OWL)
+    rail replacement  route_id ends in _BUS (M1 Bus, D1 Bus, D2 Bus, NOR Bus; FOX, T and WTR Bus have no trips)
+    school            route_id is a number from 400 to 499 (SEPTA's school trippers)
+    regular           everything else
 
 Writes to OUTPUT_DIR:
     septa-bus-routes.csv      one row per GTFS bus and trackless trolley route (trolley and Metro routes
-                              left out; four shuttle routes with no trips in this release are kept, blank)
+                              left out). 27 rows have a blank Wednesday headway: 18 school trippers,
+                              4 routes with no trips in this release, 3 rail-replacement shuttles
+                              with no trips that day (D1 Bus, D2 Bus, NOR Bus) and 2 overnight OWL
+                              routes that run outside 7:00 to 19:00
     septa-bus-routes.geojson  one feature per route: its GTFS shapes dissolved into one MultiLineString
                               (see map_lines), for mapping
 """
@@ -63,6 +75,19 @@ SIMPLIFY_DEG = 0.00001  # about 1 m, for the GeoJSON map lines only; districts u
 def seconds(hms):
     h, m, s = map(int, hms.split(":"))
     return h * 3600 + m * 60 + s
+
+
+def service_kind(rid, has_trips):
+    """What kind of service a route is, from its GTFS route_id (rules listed in the module docstring)."""
+    if not has_trips:
+        return "no trips"
+    if rid.endswith("_OWL"):
+        return "overnight"
+    if rid.endswith("_BUS"):
+        return "rail replacement"
+    if rid.isdigit() and 400 <= int(rid) <= 499:
+        return "school"
+    return "regular"
 
 
 def map_lines(lines):
@@ -115,6 +140,7 @@ def main(out_dir, cache_dir=None):
             if t["service_id"] in active[k]:
                 starts[(t["route_id"], t["direction_id"], k)].append(dep)
 
+    has_trips = {t["route_id"] for t in trips.values()}
     shape_ids = defaultdict(set)
     for t in trips.values():
         shape_ids[t["route_id"]].add(t["shape_id"])
@@ -128,14 +154,14 @@ def main(out_dir, cache_dir=None):
     rows, features = [], []
     for rid in sorted(routes, key=lambda r: (not r.isdigit(), int(r) if r.isdigit() else 0, r)):
         r = routes[rid]
-        row = dict(route=r["route_short_name"] or rid, name=r["route_long_name"], route_type=ROUTE_TYPES[r["route_type"]])
+        row = dict(route=r["route_short_name"] or rid, name=r["route_long_name"], route_type=ROUTE_TYPES[r["route_type"]],
+                   service_kind=service_kind(rid, rid in has_trips))
         for k in DAYS:
             avg = gap = None
             for d in ("0", "1"):
                 xs = sorted(x for x in starts.get((rid, d, k), []) if WINDOW[0] <= x < WINDOW[1])
                 if len(xs) < 2:
-                    avg = gap = None
-                    break
+                    continue  # a loop runs one way only; measure the directions that have trips
                 gaps = [xs[0] - WINDOW[0]] + [b - a for a, b in zip(xs, xs[1:])] + [WINDOW[1] - xs[-1]]
                 a, g = 720 / len(xs), max(gaps) / 60
                 avg, gap = (a, g) if avg is None else (max(avg, a), max(gap, g))
