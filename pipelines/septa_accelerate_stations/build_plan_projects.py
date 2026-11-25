@@ -23,7 +23,7 @@ Location, in order of preference:
     approximate_point   a site with no GTFS station (transit center, viaduct); Jeff's hand-placed point
     schematic_line      a street corridor the plan names without an extent; Jeff's hand-drawn line
     covered_elsewhere   already placed by station or route in another file of this dataset
-    none                systemwide, or the plan names no site (including ACC-003, which Jeff's file placed by assumption)
+    none                systemwide, or the plan names no site
 
 Writes to OUTPUT_DIR:
     septa-accelerate-plan-projects.csv      one row per named project, with districts
@@ -53,6 +53,10 @@ spec.loader.exec_module(ab)
 DS = "septa-accelerate-station-service"
 # Projects at stations: id -> [(mode, station name in septa-accelerate-stations.csv)]
 AT_STATIONS = {
+    # the plan: "on the [B] Broad Street Line and [L] Market-Frankford Line vehicles when they reach the end of
+    # the line" (PDF p. 17); the line ends are the B1 and L1 terminals in GTFS
+    "ACC-003": [("Metro", "69th St Transit Center"), ("Metro", "Frankford Transit Center"),
+                ("Metro", "Fern Rock Transit Center"), ("Metro", "NRG Station")],
     "ACC-004": [("Metro", "69th St Transit Center")],
     "ACC-006": [("Metro", "Tasker-Morris")],
     "ACC-007": [("Metro", "Drexel Station at 30th St")],
@@ -66,7 +70,7 @@ AT_STATIONS = {
     "ACC-038": [("Regional Rail", "Paoli")],
 }
 BUS_ROUTES = {"ACC-010": "72", "ACC-011": "76", "ACC-028": "47"}
-NOT_PLACED = {"ACC-003"}  # located in Jeff's file, but the plan names no site
+NOT_PLACED = set()  # located in Jeff's file, but the plan names no site
 APPROX_POINTS = {"ACC-022", "ACC-023", "ACC-039"}
 SCHEMATIC = {"ACC-026", "ACC-027"}
 COVERED = {  # id -> where this dataset already places it
@@ -81,7 +85,7 @@ COVERED = {  # id -> where this dataset already places it
     "ACC-035": f"{DS}/septa-accelerate-stations.csv (accessibility_rebuild_proposed)",
 }
 NOTES = {  # corrections or context found while checking
-    "ACC-003": "Not placed: the plan does not name the line ends; Jeff's file assumed 69th St, Frankford TC, Fern Rock TC and NRG.",
+    "ACC-003": "The plan says the cleaning happens on B and L vehicles 'when they reach the end of the line'; the line ends are the B1 and L1 terminals in GTFS.",
     "ACC-034": "Jeff's file says the pairing of endpoints into the three S Lines is not given; the Regional Rail Master Plan gives it (S1 Airport-Norristown, S2 Chestnut Hill East-Wawa, S3 Paoli-Fox Chase).",
     "ACC-036": "The FY27 capital budget still carries City Hall & 15th Street Stations ($216.66M).",
     "ACC-037": "The FY27 capital budget still carries City Hall & 15th Street Stations ($216.66M).",

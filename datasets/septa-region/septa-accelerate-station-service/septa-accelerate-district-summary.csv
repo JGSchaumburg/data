@@ -34,7 +34,7 @@ house,160,Craig Williams,R,flip_r_to_d,Elizabeth Moro,D,HB 1788,Y,true,1,1,0,0,0
 house,161,Leanne Krueger,D,hold,Leanne Krueger,D,HB 1788,Y,true,3,3,0,0,0,0,2,0,D1,6,0,,1,Crum Creek Viaduct replacement,7,1,113,1081,1081,0,2
 house,162,David Delloso,D,hold,Dave Delloso,D,HB 1788,Y,true,8,0,8,0,0,0,8,0,D2,1,0,,0,,6,1,113,1465,0,0,0
 house,163,Heather Boyd,D,hold,Heather Boyd,D,HB 1788,Y,true,3,3,0,0,0,0,1,0,D1; D2,60,0,,0,,9,1,113,1148,1148,0,0
-house,164,Gina Curry,D,hold,Gina Curry,D,HB 1788,Y,true,3,3,0,0,0,4,4,0,D1; D2,24,1,10.00,2,Full-height fare gates; 69th Street Transit Center TOD and South Terminal,22,3,21; 108; 113,570,570,0,2
+house,164,Gina Curry,D,hold,Gina Curry,D,HB 1788,Y,true,3,3,0,0,0,4,4,0,D1; D2,24,1,10.00,3,Pit-crew vehicle cleaning at line ends; Full-height fare gates; 69th Street Transit Center TOD and South Terminal,22,3,21; 108; 113,570,570,0,2
 house,165,Jennifer O'Mara,D,hold,Jenn O'Mara,D,HB 1788,Y,true,3,3,0,0,0,0,0,0,D1,32,1,15.00,0,,11,0,,1814,1814,0,0
 house,166,Greg Vitali,D,hold,Judith Trombetta,D,HB 1788,Y,true,0,0,0,0,0,7,5,0,,0,0,,0,,10,0,,0,0,0,1
 house,167,Kristine Howard,D,hold,Kristine Howard,D,HB 1788,Y,true,3,0,0,3,0,0,2,0,,0,0,,0,,4,0,,2046,0,0,0
@@ -46,12 +46,12 @@ house,174,Ed Neilson,D,hold,Ed Neilson,D,HB 1788,Y,true,0,0,0,0,0,0,0,0,,0,0,,1,
 house,175,MaryLouise Isaacson,D,hold,Mary Isaacson,D,HB 1788,Y,true,1,1,0,0,0,8,3,0,G1,22,4,101.17,2,New Route 76 (Olney to Pennsport); Route 47 transit priority,31,9,17; 21; 23; 25; 33; 47; 48; 57; 64,14369,14369,0,1
 house,177,Joseph Hohenstein,D,hold,Joe Hohenstein,D,HB 1788,Y,true,1,0,1,0,0,1,1,0,G1,17,0,,3,New Route 72 (Cheltenham Avenue); New Route 76 (Olney to Pennsport); Roosevelt Boulevard bus lanes,35,7,3; 25; 56; 58; 60; 66; 82,221,0,0,2
 house,178,Kristin Marcell,R,hold,Kristin Marcell,R,HB 1788,N,false,0,0,0,0,0,0,0,0,,0,0,,0,,2,0,,0,0,0,0
-house,179,Jason Dawkins,D,hold,Jason Dawkins,D,HB 1788,Y,true,1,1,0,0,0,3,0,0,,0,0,,4,New Route 72 (Cheltenham Avenue); New Route 76 (Olney to Pennsport); Roosevelt Boulevard bus lanes; Route 47 transit priority,36,9,3; 18; 25; 47; 56; 57; 58; 66; 82,174,174,0,1
+house,179,Jason Dawkins,D,hold,Jason Dawkins,D,HB 1788,Y,true,1,1,0,0,0,3,0,0,,0,0,,5,Pit-crew vehicle cleaning at line ends; New Route 72 (Cheltenham Avenue); New Route 76 (Olney to Pennsport); Roosevelt Boulevard bus lanes; Route 47 transit priority,36,9,3; 18; 25; 47; 56; 57; 58; 66; 82,174,174,0,1
 house,180,Jose Giral,D,hold,José Giral,D,HB 1788,Y,true,0,0,0,0,0,4,0,0,,0,0,,2,New Route 76 (Olney to Pennsport); Route 47 transit priority,13,6,3; 25; 47; 56; 57; 60,0,0,0,0
 house,181,Malcolm Kenyatta,D,hold,Malcolm Kenyatta,D,HB 1788,Y,true,2,2,0,0,0,6,1,0,G1,19,1,58.36,3,Susquehanna-Dauphin Station upgrade; New Route 76 (Olney to Pennsport); Route 47 transit priority,24,6,3; 23; 25; 33; 47; 57,3314,3314,0,3
 house,182,Ben Waxman,D,hold,Ben Waxman,D,HB 1788,Y,true,1,1,0,0,0,6,3,0,T1; T2; T3; T4; T5,25,2,616.66,3,Route 47 transit priority; 15th Street/City Hall Station (L) renovation; City Hall Station (B) renovation,27,7,17; 21; 23; 33; 47; 48; 64,25049,25049,0,2
 house,184,Elizabeth Fiedler,D,hold,Elizabeth Fiedler,D,HB 1788,Y,true,0,0,0,0,0,1,0,0,,0,0,,3,New Route 76 (Olney to Pennsport); South Philadelphia Transit Center; Route 47 transit priority,13,5,47; 57; 63; 64; 79,0,0,0,1
-house,185,Regina G. Young,D,hold,Regina Young,D,HB 1788,Y,true,5,5,0,0,0,2,1,0,T2; T4; T5,56,1,37.30,0,,15,4,17; 63; 79; 108,2423,2423,0,2
+house,185,Regina G. Young,D,hold,Regina Young,D,HB 1788,Y,true,5,5,0,0,0,2,1,0,T2; T4; T5,56,1,37.30,1,Pit-crew vehicle cleaning at line ends,15,4,17; 63; 79; 108,2423,2423,0,2
 house,186,Jordan Harris,D,hold,Jordan Harris,D,HB 1788,Y,true,0,0,0,0,0,1,0,0,T3; T4; T5,25,0,,1,Tasker-Morris Station upgrade,14,5,17; 52; 63; 64; 79,0,0,0,1
 house,188,Rick Krajewski,D,hold,Rick Krajewski,D,HB 1788,Y,true,3,3,0,0,0,3,2,0,T1; T2; T3; T4; T5,181,1,40.77,0,,22,6,21; 46; 52; 63; 64; 79,3208,3208,0,4
 house,190,G. Roni Green,D,hold,Roni Green,D,HB 1788,Y,true,4,1,1,2,0,1,3,0,G1; T1,31,0,,0,,41,10,3; 23; 33; 48; 52; 56; 60; 63; 64; 82,208,98,1,3
@@ -60,14 +60,14 @@ house,192,Morgan Cephas,D,hold,Morgan Cephas,D,HB 1788,Y,true,1,1,0,0,0,1,0,0,G1
 house,194,Tarik Khan,D,hold,Tarik Khan,D,HB 1788,Y,true,9,7,0,2,0,0,8,0,,0,1,16.86,1,Wissahickon Transit Center,27,5,23; 51; 52; 60; 82,3740,3237,0,0
 house,195,Keith Harris,D,hold,Sierra Denise Mcneil,D,HB 1788,Y,true,0,0,0,0,0,0,0,0,G1,21,0,,0,,16,3,3; 33; 48,0,0,0,0
 house,197,Danilo Burgos,D,hold,Danilo Burgos,D,HB 1788,Y,true,0,0,0,0,0,5,2,0,,0,2,110.13,2,New Route 76 (Olney to Pennsport); Route 47 transit priority,29,8,3; 23; 25; 47; 56; 57; 60; 82,0,0,0,3
-house,198,Darisha K. Parker,D,hold,Darisha Parker,D,HB 1788,Y,true,2,2,0,0,0,2,1,0,,0,2,86.94,3,New Route 72 (Cheltenham Avenue); Olney Avenue bus corridor; Route 47 transit priority,31,10,6; 18; 23; 33; 47; 51; 56; 57; 70; 82,1327,1327,0,0
+house,198,Darisha K. Parker,D,hold,Darisha Parker,D,HB 1788,Y,true,2,2,0,0,0,2,1,0,,0,2,86.94,4,Pit-crew vehicle cleaning at line ends; New Route 72 (Cheltenham Avenue); Olney Avenue bus corridor; Route 47 transit priority,31,10,6; 18; 23; 33; 47; 51; 56; 57; 70; 82,1327,1327,0,0
 house,200,Christopher Rabb,D,hold,Christopher K. Johnson,D,HB 1788,Y,true,7,3,0,4,0,0,6,0,,0,0,,1,New Route 72 (Cheltenham Avenue),14,4,6; 18; 23; 51,2240,928,0,1
 house,201,Andre Carroll,D,hold,Andre Carroll,D,HB 1788,Y,true,6,3,0,3,0,2,6,0,,0,0,,2,Olney Avenue bus corridor; Germantown Station TOD,18,4,6; 18; 23; 51,1459,337,0,4
 house,202,Jared Solomon,D,hold,Jared Solomon,D,HB 1788,Y,true,0,0,0,0,0,0,0,0,,0,0,,1,Roosevelt Boulevard bus lanes,17,4,56; 58; 66; 70,0,0,0,0
 house,203,Anthony Bellmon,D,hold,Anthony Bellmon,D,HB 1788,Y,true,2,2,0,0,0,0,0,0,,0,0,,3,New Route 72 (Cheltenham Avenue); Olney Avenue bus corridor; Route 47 transit priority,15,4,18; 47; 57; 70,499,499,0,2
-senate,1,Nikil Saval,D,not_up,,,HB 257,N,true,7,7,0,0,0,22,7,0,G1; T1; T2; T3; T4; T5,78,7,776.19,5,New Route 76 (Olney to Pennsport); South Philadelphia Transit Center; Route 47 transit priority; 15th Street/City Hall Station (L) renovation; City Hall Station (B) renovation,47,14,3; 17; 21; 23; 25; 33; 47; 48; 57; 60; 63; 64; 79; 108,41841,41841,0,6
-senate,2,Christine M. Tartaglione,D,hold,Tina Tartaglione,D,HB 257,N,true,2,1,1,0,0,7,1,0,G1,2,0,,4,New Route 72 (Cheltenham Avenue); New Route 76 (Olney to Pennsport); Roosevelt Boulevard bus lanes; Route 47 transit priority,42,11,3; 18; 25; 47; 56; 57; 58; 60; 66; 70; 82,522,301,0,2
-senate,3,Sharif Street,D,not_up,,,HB 257,N,true,9,7,1,1,0,9,6,0,G1,38,3,126.24,5,Susquehanna-Dauphin Station upgrade; New Route 72 (Cheltenham Avenue); New Route 76 (Olney to Pennsport); Olney Avenue bus corridor; Route 47 transit priority,47,13,3; 6; 18; 23; 33; 47; 48; 51; 56; 57; 60; 70; 82,5145,5111,1,2
+senate,1,Nikil Saval,D,not_up,,,HB 257,N,true,7,7,0,0,0,22,7,0,G1; T1; T2; T3; T4; T5,78,7,776.19,6,Pit-crew vehicle cleaning at line ends; New Route 76 (Olney to Pennsport); South Philadelphia Transit Center; Route 47 transit priority; 15th Street/City Hall Station (L) renovation; City Hall Station (B) renovation,47,14,3; 17; 21; 23; 25; 33; 47; 48; 57; 60; 63; 64; 79; 108,41841,41841,0,6
+senate,2,Christine M. Tartaglione,D,hold,Tina Tartaglione,D,HB 257,N,true,2,1,1,0,0,7,1,0,G1,2,0,,5,Pit-crew vehicle cleaning at line ends; New Route 72 (Cheltenham Avenue); New Route 76 (Olney to Pennsport); Roosevelt Boulevard bus lanes; Route 47 transit priority,42,11,3; 18; 25; 47; 56; 57; 58; 60; 66; 70; 82,522,301,0,2
+senate,3,Sharif Street,D,not_up,,,HB 257,N,true,9,7,1,1,0,9,6,0,G1,38,3,126.24,6,Pit-crew vehicle cleaning at line ends; Susquehanna-Dauphin Station upgrade; New Route 72 (Cheltenham Avenue); New Route 76 (Olney to Pennsport); Olney Avenue bus corridor; Route 47 transit priority,47,13,3; 6; 18; 23; 33; 47; 48; 51; 56; 57; 60; 70; 82,5145,5111,1,2
 senate,4,Art Haywood,D,hold,Art Haywood,D,HB 257,N,true,29,13,8,8,0,2,24,0,,0,3,114.92,3,New Route 72 (Cheltenham Avenue); Olney Avenue bus corridor; Germantown Station TOD,32,6,6; 18; 23; 51; 57; 70,10241,6179,0,4
 senate,5,Joe Picozzi,R,not_up,,,HB 257,Y,false,7,2,5,0,0,0,3,0,,0,0,,1,Roosevelt Boulevard bus lanes,36,5,18; 56; 58; 66; 70,4978,1754,0,2
 senate,6,Frank A. Farry,R,flip_r_to_d,Eileen T Hartnett Albillar,D,HB 257,Y,false,7,0,5,2,0,0,3,0,,0,1,70.95,0,,18,1,58,4431,0,0,0
@@ -79,15 +79,15 @@ senate,12,Maria Collett,D,hold,Maria Collett,D,HB 257,N,true,13,0,9,4,0,0,4,0,,0
 senate,17,Amanda M. Cappelletti,D,not_up,,,HB 257,N,true,16,14,0,2,0,20,25,0,,0,2,109.31,0,,33,2,52; 63,8292,8047,0,2
 senate,19,Carolyn T. Comitta,D,not_up,,,HB 257,N,true,10,5,0,4,1,0,5,1,,0,0,,1,Paoli Station,9,0,,5543,3099,1,0
 senate,24,Tracy Pennycuick,R,flip_r_to_d,Christopher David Thomas,D,HB 257,Y,false,1,0,1,0,0,0,0,0,,0,0,,0,,5,0,,799,0,0,0
-senate,26,Timothy P. Kearney,D,hold,Tim Kearney,D,HB 257,N,true,13,9,4,0,0,4,9,0,D1; D2,108,2,25.00,2,Full-height fare gates; 69th Street Transit Center TOD and South Terminal,25,3,21; 108; 113,4261,3532,0,2
+senate,26,Timothy P. Kearney,D,hold,Tim Kearney,D,HB 257,N,true,13,9,4,0,0,4,9,0,D1; D2,108,2,25.00,3,Pit-crew vehicle cleaning at line ends; Full-height fare gates; 69th Street Transit Center TOD and South Terminal,25,3,21; 108; 113,4261,3532,0,2
 senate,44,Katie J. Muth,D,hold,Katie Muth,D,HB 257,N,true,1,0,0,1,0,0,0,0,,0,0,,0,,8,0,,535,0,0,0
 council,1,,,,,,,,,1,1,0,0,0,10,3,0,G1,29,4,101.17,3,New Route 76 (Olney to Pennsport); South Philadelphia Transit Center; Route 47 transit priority,39,13,3; 17; 21; 23; 25; 33; 47; 48; 57; 60; 63; 64; 79,14369,14369,0,2
-council,2,,,,,,,,,5,5,0,0,0,7,3,0,T1; T2; T3; T4; T5,105,1,37.30,1,Tasker-Morris Station upgrade,31,6,17; 21; 63; 64; 79; 108,2423,2423,0,6
+council,2,,,,,,,,,5,5,0,0,0,7,3,0,T1; T2; T3; T4; T5,105,1,37.30,2,Pit-crew vehicle cleaning at line ends; Tasker-Morris Station upgrade,31,6,17; 21; 63; 64; 79; 108,2423,2423,0,6
 council,3,,,,,,,,,4,4,0,0,0,8,2,0,G1; T1; T2; T3; T4; T5,269,2,440.77,1,Drexel Station at 30th Street upgrade,27,6,21; 46; 52; 63; 64; 79,16059,16059,0,3
 council,4,,,,,,,,,6,5,0,1,0,0,4,0,G1; T1,60,0,,1,Wissahickon Transit Center,45,11,3; 21; 46; 48; 51; 52; 56; 60; 63; 64; 82,3401,3325,0,1
 council,5,,,,,,,,,3,3,0,0,0,13,4,0,G1; T1; T2; T3; T4; T5,75,5,785.15,5,Susquehanna-Dauphin Station upgrade; New Route 76 (Olney to Pennsport); Route 47 transit priority; 15th Street/City Hall Station (L) renovation; City Hall Station (B) renovation,48,12,3; 17; 21; 23; 25; 33; 47; 48; 56; 57; 60; 82,28363,28363,0,7
 council,6,,,,,,,,,4,0,4,0,0,2,4,0,G1,2,0,,1,Roosevelt Boulevard bus lanes,32,7,3; 25; 56; 58; 60; 66; 70,2241,0,0,4
-council,7,,,,,,,,,0,0,0,0,0,6,0,0,,0,0,,4,New Route 72 (Cheltenham Avenue); New Route 76 (Olney to Pennsport); Roosevelt Boulevard bus lanes; Route 47 transit priority,40,9,3; 25; 47; 56; 57; 58; 60; 66; 82,0,0,0,1
+council,7,,,,,,,,,0,0,0,0,0,6,0,0,,0,0,,5,Pit-crew vehicle cleaning at line ends; New Route 72 (Cheltenham Avenue); New Route 76 (Olney to Pennsport); Roosevelt Boulevard bus lanes; Route 47 transit priority,40,9,3; 25; 47; 56; 57; 58; 60; 66; 82,0,0,0,1
 council,8,,,,,,,,,22,11,1,10,0,2,19,0,,0,2,87.69,3,Olney Avenue bus corridor; Route 47 transit priority; Germantown Station TOD,36,10,6; 18; 23; 33; 47; 51; 56; 57; 60; 82,5644,2673,1,3
-council,9,,,,,,,,,3,3,0,0,0,2,1,0,,0,1,16.11,4,New Route 72 (Cheltenham Avenue); New Route 76 (Olney to Pennsport); Olney Avenue bus corridor; Route 47 transit priority,31,7,6; 18; 47; 51; 57; 70; 82,1288,1288,0,2
+council,9,,,,,,,,,3,3,0,0,0,2,1,0,,0,1,16.11,5,Pit-crew vehicle cleaning at line ends; New Route 72 (Cheltenham Avenue); New Route 76 (Olney to Pennsport); Olney Avenue bus corridor; Route 47 transit priority,31,7,6; 18; 47; 51; 57; 70; 82,1288,1288,0,2
 council,10,,,,,,,,,4,2,2,0,0,0,0,0,,0,0,,1,Roosevelt Boulevard bus lanes,33,4,18; 58; 66; 70,2958,1754,0,0
