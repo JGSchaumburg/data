@@ -7,6 +7,7 @@ Reads only files already in this repo (no downloads), relative to the repo root:
     datasets/septa-region/septa-accelerate-station-service/septa-accelerate-stations.csv
     datasets/septa-region/septa-accelerate-station-service/septa-accelerate-trolley-stops-by-district.csv
     datasets/septa-region/septa-accelerate-station-service/septa-accelerate-plan-projects.csv
+    datasets/septa-region/septa-accelerate-station-service/septa-bus-routes.csv
     datasets/septa-region/septa-regional-rail-stations/septa-regional-rail-stations.csv
         (Weekday_Total_Boards, matched on stop_id)
     datasets/pennsylvania/legislators-2025-2026/records/
@@ -46,6 +47,7 @@ COLUMNS = [
     "trolley_routes", "trolley_stops",
     "fy27_named_projects", "fy27_named_projects_millions",
     "plan_projects", "plan_project_names",
+    "bus_routes", "frequent_bus_routes", "frequent_bus_route_names",
     "rr_weekday_boardings", "rr_weekday_boardings_at_15_min_stations", "rr_stations_without_boardings",
     "near_boundary_stations",
 ]
@@ -85,6 +87,15 @@ def main(out_path):
         for ch in ("house", "senate", "council"):
             for d in filter(None, (x.strip() for x in r[f"{ch}_districts"].split(";"))):
                 plan[(ch, d)].append(r["name"])
+
+    # Bus routes whose GTFS shapes cross the district; "frequent" is SEPTA's weekday Frequent Red network.
+    bus, fbus = defaultdict(set), defaultdict(list)
+    for r in csv.DictReader(open(OUT_DIR / "septa-bus-routes.csv", encoding="utf-8")):
+        for ch in ("house", "senate", "council"):
+            for d in filter(None, (x.strip() for x in r[f"{ch}_districts"].split(";"))):
+                bus[(ch, d)].add(r["route"])
+                if r["septa_frequent_weekday"] == "true":
+                    fbus[(ch, d)].append(r["route"])
 
     rows = defaultdict(lambda: defaultdict(int))
     routes = defaultdict(set)
@@ -143,7 +154,10 @@ def main(out_path):
                    fy27_named_projects=len(projects[(ch, d)]),
                    fy27_named_projects_millions=f"{sum(cost[p] for p in projects[(ch, d)]):.2f}" if projects[(ch, d)] else "",
                    plan_projects=len(plan[(ch, d)]),
-                   plan_project_names="; ".join(plan[(ch, d)]))
+                   plan_project_names="; ".join(plan[(ch, d)]),
+                   bus_routes=len(bus[(ch, d)]),
+                   frequent_bus_routes=len(fbus[(ch, d)]),
+                   frequent_bus_route_names="; ".join(fbus[(ch, d)]))
         for c in ("member_2025_26", "party_2025_26", "seat_2026_status", "winner_2026", "winner_party_2026",
                   "transit_funding_vote_bill", "transit_funding_vote_2025_26", "transit_funding_vote_pro_transit"):
             row[c] = ""

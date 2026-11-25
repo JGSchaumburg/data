@@ -1,0 +1,156 @@
+route,name,wed_avg_headway_min,wed_max_gap_min,sat_avg_headway_min,sat_max_gap_min,sun_avg_headway_min,sun_max_gap_min,septa_frequent_weekday,house_districts,senate_districts,council_districts
+1,Parx Casino to 54th-City,42.4,72.0,65.5,69.0,,,false,18; 148; 170; 172; 173; 174; 177; 179; 190; 192; 194; 197; 198; 202; 203,2; 3; 5; 6; 7; 17,4; 5; 6; 7; 8; 9; 10
+2,20-Johnston to Pulaski-Hunting Park,16.7,24.0,31.3,32.0,31.3,32.0,false,10; 181; 182; 185; 186; 190; 195; 198,1; 3; 8,2; 5; 8
+3,33rd-Cecil B. Moore to Frankford TC,12.6,16.0,21.2,29.0,22.5,30.0,true,177; 179; 180; 181; 190; 195; 197,1; 2; 3; 7,1; 4; 5; 6; 7
+4,Broad-Pattison to Fern Rock TC,30.0,33.0,30.0,33.0,32.7,59.0,false,175; 181; 182; 184; 185; 190; 197; 198,1; 3; 8,1; 2; 5; 7; 8; 9
+5,2nd-Market to Frankford Transit Ctr,22.5,34.0,32.7,45.0,32.7,45.0,false,175; 177; 179; 180; 181; 197,1; 2,1; 5; 6; 7
+6,Cheltenham-Ogontz to Olney TC,12.9,16.0,16.7,39.0,21.8,46.0,true,154; 198; 200; 201,3; 4,8; 9
+7,Pier 70 to 33rd-Dauphin,19.5,32.0,23.2,46.0,22.5,43.0,false,10; 182; 184; 185; 186; 190; 195,1; 3; 7; 8,1; 2; 4; 5
+8,Olney TC to Frankford TC,27.7,32.0,,,,,false,177; 179; 197; 198; 201,2; 3; 4,7; 8; 9
+9,4th-Walnut to Andorra,20.0,35.0,30.0,34.0,60.0,63.0,false,10; 148; 175; 182; 188; 190; 194,1; 7; 8; 17,1; 2; 3; 4; 5
+12,Columbus-Dock to 50th-Woodland,24.0,31.0,31.3,35.0,31.3,36.0,false,175; 182; 186; 188,1; 8,1; 2; 3; 5
+14,FTC to Neshaminy/Oxford Valley,14.7,30.0,19.5,42.0,20.0,46.0,false,18; 142; 170; 172; 173; 174; 177; 179; 202,2; 5; 6,6; 7; 10
+16,City Hall to Cheltenham-Ogontz,20.6,38.0,23.2,30.0,30.0,32.0,false,154; 175; 181; 182; 190; 197; 198; 200; 201,1; 3; 4,1; 2; 5; 8; 9
+17,Front-Mkt to 20-Johnston,12.4,16.0,16.4,45.0,17.1,47.0,true,10; 175; 182; 185; 186,1; 8,1; 2; 5
+18,Fox Chase to Cedarbrook Plaza,12.2,21.0,15.0,20.0,21.8,32.0,true,154; 172; 179; 198; 200; 201; 203,2; 3; 4; 5,8; 9; 10
+19,Torresdale Station to Frankford TC,37.9,55.0,65.5,84.0,,,false,172; 173; 174; 177; 179; 202; 203,2; 5,6; 7; 9; 10
+20,Philadelphia Mills to Frankford TC,14.4,21.0,18.5,29.0,21.8,40.0,false,18; 170; 172; 173; 174; 177; 179; 202,2; 5; 6,6; 7; 10
+21,Columbus-Dock to 69th St TC,10.0,14.0,14.1,24.0,16.7,25.0,true,10; 164; 175; 182; 188; 191; 192,1; 7; 8; 26,1; 2; 3; 4; 5
+22,Warminster/Willow Grove to Olney TC,24.8,61.0,30.0,61.0,45.0,75.0,false,144; 152; 153; 154; 198; 200; 201,3; 4; 6; 12,8; 9
+23,11th Market to Chestnut Hill,9.9,16.0,14.1,18.0,19.5,22.0,true,175; 181; 182; 190; 194; 197; 198; 200; 201,1; 3; 4; 7,1; 5; 8
+24,Southamptn/Rockldge to Frankford TC,32.7,60.0,31.3,55.0,31.3,56.0,false,152; 153; 154; 172; 177; 178; 179; 203,2; 4; 5; 6; 12,7; 9; 10
+25,Frankford TC to 2nd-Spring Garden,15.0,15.0,21.2,57.0,22.5,60.0,true,175; 177; 179; 180; 181; 197,1; 2,1; 5; 6; 7
+26,Frankford TC to Chelten Av Station,11.1,29.0,25.7,57.0,25.7,56.0,false,177; 179; 198; 201; 202; 203,2; 3; 4; 5; 7,6; 7; 8; 9
+27,Broad-Carpenter to Plymouth Meeting,18.5,37.0,36.0,45.0,60.0,62.0,false,10; 54; 148; 154; 175; 181; 182; 186; 190; 194; 195,1; 4; 7; 8; 12; 17,1; 2; 3; 4; 5
+28,Fern Rock TC to Torresdale-Cottman,28.8,36.0,60.0,64.0,90.0,120.0,false,153; 154; 172; 173; 174; 198,3; 4; 5,6; 9; 10
+29,Pier 70 to 33rd-Dickinson,13.8,21.0,22.5,38.0,32.7,40.0,false,184; 186,1; 8,1; 2
+30,Gray 30th St Station to 69th St TC,36.0,45.0,51.4,62.0,51.4,62.0,false,10; 164; 188; 190; 192,7; 8; 26,3; 4
+31,City Hall to 76th-City,24.0,32.0,34.3,61.0,45.0,60.0,false,10; 148; 175; 182; 188; 191; 192,1; 7; 8; 17,1; 2; 3; 4; 5
+32,Broad-Carpenter to Ridge-Lyceum,20.6,32.0,30.0,31.0,32.7,61.0,false,10; 175; 181; 182; 186; 190; 194; 195,1; 3; 7; 8,1; 2; 4; 5
+33,5th-Market to 23rd-Venango,12.0,16.0,12.9,20.0,13.6,28.0,true,10; 175; 181; 182; 190; 195; 198,1; 3,1; 5; 8
+37,Chester Transit Ctr to Broad-Snyder,20.6,32.0,25.7,50.0,25.7,49.0,false,159; 162; 184; 185; 186,1; 8; 9; 26,2; 3
+38,5th-Market to Wissahickon TC,20.6,33.0,31.3,39.0,45.0,49.0,false,10; 148; 175; 182; 190; 194; 195,1; 3; 7; 17,1; 2; 3; 4; 5
+39,Richmond-Cumberland to 33rd-Dauphin,30.0,32.0,31.3,55.0,36.0,59.0,false,175; 177; 181; 190; 195; 197,1; 2; 3; 7,1; 4; 5; 7
+40,2nd-Lombard to Conshohocken-Monumnt,13.3,24.0,30.0,38.0,31.3,40.0,false,10; 175; 182; 188; 190; 192,1; 7; 8,1; 2; 3; 4
+41,Chelten-Wissahckn to Richmnd-Orthdx,28.8,33.0,60.0,61.0,60.0,61.0,false,177; 179; 194; 197; 198; 201,2; 3; 4; 7,4; 6; 7; 8; 9
+42,2nd-Spruce to 61st-Pine/Wycombe,10.3,20.0,14.1,28.0,16.7,28.0,false,10; 164; 175; 182; 188; 191,1; 7; 8; 26,1; 2; 3; 5
+43,Richmond-Cumberland to 50th-Parksde,23.2,33.0,34.3,46.0,45.0,47.0,false,10; 175; 177; 181; 190; 195,1; 3; 7,1; 3; 4; 5
+44,Front-Market to Ardmore,31.3,60.0,60.0,74.0,65.5,81.0,false,10; 148; 149; 175; 182; 188; 190; 192,1; 7; 8; 17,1; 2; 3; 4; 5
+45,Navy Yard/Brd-Oregon to 12th-Vine,12.4,27.0,15.0,25.0,15.3,27.0,false,175; 182; 184; 185,1; 8,1; 2
+46,58th-Baltimore to 63rd-Malvern,15.0,17.0,17.1,51.0,22.5,60.0,true,188; 191; 192,7; 8,3; 4
+47,Whitman Plaza to 5th-Godfrey,9.4,18.0,16.0,28.0,17.1,30.0,true,175; 179; 180; 181; 182; 184; 197; 198; 203,1; 2; 3,1; 5; 7; 8; 9
+48,Front-Market to 27th-Allegheny,14.1,17.0,14.7,27.0,18.9,40.0,true,10; 175; 182; 190; 195,1; 3; 7,1; 4; 5
+49,33rd-Dauphin to 40th-Baltimore,21.8,35.0,32.7,61.0,32.7,60.0,false,10; 182; 188; 190; 195,1; 3; 7; 8,2; 3; 4; 5
+50,Parx to Frankford Transit Center,27.7,32.0,31.3,41.0,32.7,55.0,false,18; 170; 172; 173; 174; 177; 179; 202,2; 5; 6,6; 7; 10
+51,Plymth Mtg/Chestnt Hill to Olney TC,11.4,28.0,20.0,39.0,21.8,43.0,true,54; 148; 154; 194; 198; 200; 201,3; 4; 7; 12,4; 8; 9
+52,49th-Woodlnd to Wiss TC/Parksd Lp,10.0,19.0,10.9,19.0,13.1,29.0,true,10; 148; 186; 188; 190; 191; 192; 194,7; 8; 17,3; 4
+53,Emlen-Carpenter to Rich-Westmorland,24.0,31.0,30.0,31.0,34.3,60.0,false,177; 179; 180; 190; 197; 198; 200; 201,2; 3; 4; 7,5; 6; 7; 8
+54,Richmond-Cambria to 33rd-Dauphin,17.6,22.0,20.6,29.0,31.3,60.0,false,177; 180; 181; 190; 195; 197,1; 2; 3; 7,1; 4; 5; 7; 8
+55,Doylestown/Willow Grove to Olney TC,19.5,48.0,20.0,43.0,30.0,65.0,false,29; 143; 144; 151; 152; 153; 154; 198; 201,3; 4; 6; 10; 12,8; 9
+56,23rd-Venango to Torresdale-Cottman,11.2,19.0,18.0,27.0,26.7,31.0,true,173; 177; 179; 180; 190; 197; 198; 202,2; 3; 5; 7,4; 5; 6; 7; 8
+57,WhitmnPlz to RisngSun-Olney/FernRck,15.0,23.0,20.6,28.0,21.8,60.0,true,154; 175; 179; 180; 181; 184; 197; 198; 203,1; 2; 3; 4,1; 5; 7; 8; 9
+58,Neshaminy/Somerton to Frankford TC,13.1,33.0,15.7,30.0,20.6,35.0,true,18; 142; 170; 172; 174; 177; 179; 202,2; 5; 6,6; 7; 10
+59,Castor-Bustleton to Arrott TC,14.4,20.0,22.5,31.0,30.0,31.0,false,172; 174; 177; 179; 202; 203,2; 5,7; 9; 10
+60,Wiss TC/35-Algny to Rich-Westmrlnd,10.1,24.0,15.7,36.0,16.7,30.0,true,177; 180; 190; 194; 197,1; 2; 3; 7,1; 4; 5; 6; 7; 8
+61,9th-Market to Manayunk,18.0,32.0,30.0,31.0,30.0,31.0,false,175; 181; 190; 194; 195,1; 3; 7,1; 4; 5
+63,Lanknau/Overbrk to ColCom/FdCtr,10.7,20.0,15.3,24.0,21.2,35.0,true,10; 148; 184; 185; 186; 188; 190; 191; 192,1; 7; 8; 17,1; 2; 3; 4
+64,50th-Parkside to Pier 70,14.4,17.0,20.6,30.0,22.5,60.0,true,10; 175; 182; 184; 186; 188; 190,1; 7; 8,1; 2; 3; 4
+65,Germantown-Chelten to 69th St TC,13.8,19.0,18.5,25.0,23.2,30.0,false,148; 164; 190; 192; 194; 200; 201,4; 7; 17; 26,4; 8
+66,Frankford TC to Frankford-Knights,7.7,17.0,12.0,15.0,15.3,18.0,true,173; 174; 177; 179; 202,2; 5,6; 7; 10
+67,Phila Mills/Bustletn to Frankfrd TC,18.0,56.0,31.3,54.0,30.0,53.0,false,170; 172; 174; 177; 179; 202; 203,2; 5,7; 9; 10
+68,Broad-Oregon to UPS/69th St TC,34.3,64.0,72.0,72.0,72.0,75.0,false,164; 184; 185; 191,1; 8; 26,1; 2
+70,Frank-Grg/Torsdl-Cottmn to FernRock,12.4,26.0,19.5,39.0,22.5,39.0,true,154; 172; 173; 198; 202; 203,2; 3; 4; 5,6; 9; 10
+71,Broad-Erie to Cheltenham-Ogontz,18.5,31.0,22.5,37.0,27.7,40.0,false,154; 190; 197; 198; 200; 201,3; 4; 7,4; 5; 8; 9
+72,Cedarbrook Plaza to Frankford Trans,30.0,31.0,31.3,60.0,34.3,70.0,false,154; 177; 179; 198; 200; 203,2; 3; 4,7; 9
+73,Frankford TC to Richmnd-Westmorelnd,30.0,32.0,30.0,30.0,30.0,31.0,false,177; 179,2; 5,6; 7
+75,Wayne Junct to Arrott Transit Ctr,23.2,32.0,30.0,34.0,30.0,34.0,false,179; 197; 198,2; 3,7; 8
+76,Rising Sun-Olney to Columbus Comm,30.0,33.0,31.3,51.0,34.3,75.0,false,175; 177; 179; 180; 181; 184; 197,1; 2; 3,1; 5; 7; 9
+77,Roosevelt-Cottman to Chestnut Hill,60.0,63.0,60.0,62.0,80.0,164.0,false,153; 154; 172; 194; 200; 202; 203,2; 4; 5,6; 8; 9; 10
+79,Columbus Commons to 29th-Snyder or 40th-Market,12.4,24.0,15.7,30.0,16.4,32.0,true,10; 184; 185; 186; 188,1; 7; 8,1; 2; 3
+81,Broad-Erie to Cheltenham-Ogntz,18.5,29.0,21.8,40.0,27.7,40.0,false,154; 190; 197; 198; 200; 201,3; 4; 7,4; 5; 8; 9
+82,Wisshkn TC/Henry-Midvl to FrankfdTC,11.8,19.0,18.5,24.0,22.5,33.0,true,177; 179; 190; 194; 197; 198,2; 3; 7,4; 5; 7; 8; 9
+84,Bustletn-CountyLn/PhilaMills to FTC,24.8,59.0,60.0,62.0,60.0,62.0,false,142; 152; 170; 173; 174; 177; 179,2; 5; 6; 12,6; 7; 10
+88,Bethayres/Frankford-Gregg to FTC,26.7,50.0,30.0,47.0,34.3,74.0,false,152; 153; 172; 173; 174; 177; 179; 202,2; 4; 5; 12,6; 7; 10
+90,Plymouth Mtng. to Norristown TC,65.5,75.0,60.0,60.0,,,false,54; 70,12; 17,
+92,West Chester to King of Prussia,80.0,88.0,72.0,90.0,,,false,149; 156; 157; 167,17; 19; 44,
+93,Pottstown to Norristown Transit Ctr,42.4,63.0,60.0,71.0,72.0,155.0,false,54; 70; 146; 150,17; 24; 44,
+94,Montgomery Mall to Chestnut Hill,55.4,105.0,65.5,85.0,180.0,245.0,false,53; 61; 70; 148; 151; 153; 154; 194,4; 7; 12; 24,8
+95,Gulph Mills to Willow Grove Mall,65.5,70.0,60.0,72.0,,,false,54; 61; 148; 149; 151; 152; 153; 154,4; 7; 12; 17,
+96,Lansdale to Norristown Transit Ctr,30.0,40.0,60.0,69.0,60.0,73.0,false,53; 54; 61; 70,12; 17; 24,
+97,Chestnut Hill to Norristown TC,65.5,75.0,60.0,70.0,65.5,75.0,false,54; 148; 154; 194,4; 7; 12; 17,4; 8
+98,Plymouth Mtng to Norristown TC,31.3,60.0,60.0,62.0,72.0,169.0,false,54; 61; 70,12; 17,
+99,Phoenixville to Norristown TC,31.3,60.0,37.9,66.0,60.0,90.0,false,26; 54; 149; 150; 157,17; 19; 44,
+103,Ardmore to 69th St Transit Center,40.0,60.0,60.0,78.0,60.0,69.0,false,148; 149; 164; 166; 192,7; 17; 26,4
+104,West Chester U to 69th St TC,20.0,30.0,45.0,70.0,34.3,61.0,false,156; 157; 160; 164; 165; 166; 168,9; 17; 19; 26,
+105,Paoli to 69th St Transit Center,30.0,60.0,30.0,60.0,60.0,61.0,false,148; 149; 157; 164; 166; 168; 192,7; 17; 19; 26,4
+107,Lawrence Park to 69th St TC,48.0,72.0,65.5,90.0,,,false,162; 163; 164; 165; 166,8; 26,
+108,UPS/Airport to 69th St Transit Ctr,15.0,30.0,24.8,35.0,30.0,31.0,true,164; 185; 191,1; 8; 26,2
+109,Chester Transit Ctr to 69th St TC,18.5,24.0,22.5,30.0,30.0,30.0,false,159; 161; 163; 164; 165,9; 26,
+110,Penn State U to 69th St Transit Ctr,25.7,59.0,32.7,60.0,65.5,90.0,false,161; 163; 164; 165; 166; 168,9; 17; 26,
+111,Chadds Ford to 69th St Transit Ctr,32.7,89.0,60.0,66.0,60.0,62.0,false,160; 163; 164; 165; 168,9; 26,
+112,DCCC to 69th St Transit Center,34.3,62.0,72.0,160.0,,,false,164; 165; 166; 168,17; 26,
+113,Claymont TC to 69th St Transit Ctr,15.0,46.0,20.6,57.0,30.0,56.0,true,159; 161; 162; 163; 164; 191,8; 9; 26,
+114,Wawa Station to Darby Transit Ctr,31.3,62.0,60.0,60.0,60.0,66.0,false,159; 161; 162; 163; 168; 191,8; 9; 26,
+115,DCCC/Darby Transit Ctr to Airport,65.5,100.0,60.0,70.0,60.0,62.0,false,162; 163; 164; 165; 166; 168; 185; 191,1; 8; 17; 26,2
+117,Penn State U to I-95 Industrial Pk,32.7,57.0,30.0,35.0,60.0,66.0,false,159; 161; 168,9,
+118,Newtown Square to Chester TC,60.0,75.0,65.5,90.0,,,false,159; 161; 165; 168,9; 26,
+119,Cheyney U to Chester Transit Center,60.0,75.0,72.0,80.0,72.0,80.0,false,159; 160,9,
+120,Cheyney U to 69th St Transit Center,80.0,130.0,144.0,208.0,240.0,373.0,false,157; 160; 164; 165; 166; 168,9; 17; 19; 26,
+123,King of Prussia to 69th St TC,36.0,74.0,32.7,65.0,42.4,100.0,false,149; 164; 166; 168,17; 26,
+124,Chesterbrook to 13th-Market,40.0,80.0,45.0,87.0,60.0,90.0,false,10; 148; 149; 157; 175; 181; 182; 188; 190; 194,1; 7; 8; 17; 19,1; 2; 3; 4; 5
+125,Valley Forge to 13th-Market,45.0,61.0,51.4,65.0,45.0,90.0,false,10; 148; 149; 175; 181; 182; 188; 190; 194,1; 7; 8; 17,1; 2; 3; 4; 5
+126,Lawrence Park via Manoa to 69th TC,48.0,69.0,60.0,87.0,65.5,65.0,false,164; 165; 166,17; 26,
+127,Trenton Transit Ctr to OxfordValley,80.0,94.0,90.0,112.0,,,false,31; 140; 141; 142,6; 10,
+128,Neshaminy to Oxford Valley Mall,90.0,127.0,102.9,130.0,,,false,18; 140; 141; 142,6; 10,
+129,Frankford-Knights to Oxford Valley,65.5,70.0,60.0,65.0,102.9,137.0,false,18; 140; 141; 142; 170; 173; 174,5; 6; 10,6; 10
+130,BCCC to Frankford-Knights,60.0,73.0,65.5,83.0,102.9,151.0,false,18; 31; 142; 170; 173; 174,5; 6; 10,6; 10
+131,Audubon to Norristown Transit Ctr,40.0,64.0,60.0,61.0,60.0,62.0,false,54; 70; 150,17; 44,
+132,Telford to Montgomery Mall,72.0,93.0,72.0,125.0,240.0,250.0,false,53; 61; 143; 145; 151,12; 16; 24,
+133,Frankford-Knights to Bensalem,180.0,445.0,,,,,false,18; 173; 174,5; 6,6; 10
+135,West Chester TC to Coatesville,65.5,90.0,72.0,85.0,65.5,73.0,false,74; 155; 156; 167,19; 44,
+139,Limerick to King of Prussia,72.0,90.0,90.0,120.0,,,false,26; 146; 149; 150; 157,17; 24; 44,
+150,Parx Casino to Plymouth Meeting,240.0,420.0,360.0,450.0,,,false,18; 54; 142; 148; 151; 152; 153; 178,6; 7; 12,
+201,Ft Wash Office Ctr to Fort Wash Sta,51.4,65.0,,,,,false,148; 153,7; 12,
+204,Eagleview to Paoli Train Station,60.0,120.0,120.0,120.0,144.0,180.0,false,155; 157; 167,19; 44,
+206,Commons at Great Vly to Paoli Sta,102.9,492.0,,,,,false,157; 167,19; 44,
+310,Horsham Loop,,,,,,,false,151; 152,4; 12,
+409,59th-Baltimore to 84th-Crane,,,,,,,false,185; 188; 191,1; 8,2; 3
+411,74th-Elmwood to 46th-Ludlow,,,,,,,false,185; 186; 188; 191,7; 8,2; 3
+415,46th-Ludlow to Passyunk-Elmwood,,,,,,,false,10; 185; 186; 188; 191,7; 8,2; 3
+426,Torresdale-Bridge to 10th-Lycoming,,,,,,,false,177; 179; 197; 198,2; 3,5; 7; 8; 9
+428,Richmond-Venango to 10th-Lycomng,,,,,,,false,177; 180; 197,2; 3,5; 6; 7
+433,Castor-Cottman to 10th-Lycomng,,,,,,,false,172; 173; 179; 197; 198; 202; 203,2; 3; 5,5; 6; 7; 8; 9; 10
+438,Germantown to Upper Roxborough,,,,,,,false,194; 200; 201,4; 7,4; 8
+439,Germantown to Roxborough,,,,,,,false,194; 200; 201,4; 7,4; 8
+441,Andorra/Roxborough to Broad-Vine,,,,,,,false,10; 148; 175; 181; 190; 194; 195,1; 7; 17,1; 3; 4; 5
+442,Henry-Roberts to Barren Hill,,,,,,,false,148; 154; 190; 194,4; 7,4
+445,Roxborough to Frankford Transit Ctr,,,,,,,false,177; 179; 190; 194; 197; 198,2; 3; 7,4; 5; 7; 8
+446,Henry-Cinnaminsn to Junipr-Commerce,,,,,,,false,10; 181; 182; 190; 194; 195,1; 3; 7,4; 5
+447,Frankford TC to Henry-Cinnaminson,,,,,,,false,177; 179; 190; 194; 197; 198,2; 3; 7,4; 5; 7; 8; 9
+448,Broad-Vine to Upper Roxborough,,,,,,,false,181; 190; 194; 195,1; 3; 7,4; 5
+450,Frankford-Linden to Bustletn-Verree,,,,,,,false,170; 172; 173; 174,5,6; 10
+452,Academy-Medford to Bustleton-Verree,,,,,,,false,170; 172,5,10
+461,Bustleton-Verree to Academy-Chalfnt,,,,,,,false,142; 170; 172,5; 6,10
+462,Welsh-Bridal to Academy-Chalfont,,,,,,,false,170; 172; 173; 174,5,6; 10
+475,Bustltn-County Ln to Verree-Marchmn,,,,,,,false,142; 170; 172,5; 6,10
+476,Southamptn-Blvd to Verree-Marchman,360.0,680.0,,,,,false,170; 172,5,10
+477,Academy-Comly to Verree-Marchman,360.0,682.0,,,,,false,170; 172,5,10
+478,Welsh-Blvd to Verree-Marchman,360.0,674.0,,,,,false,172; 174,5,6; 10
+484,Holy Redmr Hosptl to Cottmn-Torrsdl,,,,,,,false,152; 153; 172; 173; 174,4; 5; 12,6; 10
+490,Fox Chase Loop to Verree-Marchman,,,,,,,false,172,5,10
+492,Bustletn-Rennard to Verree-Marchman,180.0,676.0,,,,,false,170; 172,5,10
+495,Southmptn-Worthngtn to 10th-Lycomng,,,,,,,false,170; 172; 177; 179; 180; 197; 202; 203,2; 3; 5,5; 7; 9; 10
+B1 OWL,Midnight-5am Service (Bus) for B1,,,,,,,false,175; 181; 182; 184; 185; 190; 197; 198; 201,1; 3; 4; 8,1; 2; 5; 8; 9
+BLVDDIR,Blvd Direct Neshaminy Mall to FTC,13.8,16.0,15.0,16.0,15.0,16.0,false,18; 170; 172; 173; 174; 177; 179; 202,2; 5; 6,6; 7; 10
+D1 Bus,Route 101 Bus,,,,,,,false,161; 163; 164; 165,9; 26,
+D2 Bus,Route 102 Bus,,,,,,,false,162; 163; 164,8; 26,
+FOX Bus,Fox Chase Shuttle Bus,,,,,,,false,,,
+K,Ridge-Midvale to Arrott Transit Ctr,14.7,22.0,21.2,29.0,31.3,33.0,false,179; 190; 194; 198; 201; 203,2; 3; 4; 7,4; 7; 8; 9
+L1 OWL,Midnight-5am Service (Bus) for L1,,,,,,,false,10; 164; 175; 177; 179; 180; 181; 182; 188; 191; 192; 197,1; 2; 7; 8; 26,1; 3; 4; 5; 6; 7
+LUCYGO,Gold Loop through University City,,,,,,,false,10; 188,7; 8,3
+LUCYGR,Green Loop through University City,,,,,,,false,10; 188,7; 8,3
+M1 Bus,NHSL Shuttle Bus,20.0,30.0,20.0,21.0,30.0,31.0,false,54; 149,17,
+MANN,Mann Loop,,,,,,,false,,,
+NOR Bus,Manayunk/Norristown Shuttle Bus,,,,,,,false,54,7; 12; 17,
+T Bus,City Hall to 40th-Market,,,,,,,false,,,
+WTR Bus,West Trenton Shuttle Bus,,,,,,,false,,,
