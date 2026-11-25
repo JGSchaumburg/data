@@ -9,7 +9,8 @@
 - **Stations, stops and line order:** SEPTA GTFS release [`v202611010`](https://github.com/septadev/GTFS/releases/tag/v202611010) (schedule starting 2026-11-01). Pulled 2026-11-17.
 - **Districts:** [Regional Rail stations by district](../regional-rail-station-districts/) for the Regional Rail stations it covers; Census TIGER/Line 2024 for everything else; City of Philadelphia [Council Districts 2024](https://services.arcgis.com/fLeGjb7u4uXqeF9q/arcgis/rest/services/Council_Districts_2024/FeatureServer/0) (the ArcGIS layer behind OpenDataPhilly) (pulled 2026-11-17); [PA legislators 2025–26](../../pennsylvania/legislators-2025-2026/) and [2026 election results](../../pennsylvania/election-2026-results/).
 - **Named FY27 projects:** SEPTA [FY2027 Operating and Capital Budget Proposal](https://www.septa.org/wp-content/uploads/page/planning/SEPTA-FY-2027-Operating-Capital-Budget-Proposal.pdf), through the parsed project table in [`analyses/septa-capital-tip-tracker`](../../../analyses/septa-capital-tip-tracker/).
-- **Built on:** 2026-11-17
+- **Named plan projects:** Jeff Maki's catalog of the 39 named projects in the Accelerate plan, made with AI help and shared in TFP Slack on 2026-11-11, kept as [`sources/jeff-maki-septa-accelerate-projects-2026-11-11.geojson`](../../../pipelines/septa_accelerate_stations/sources/). Every name was checked against the plan text, and every page number against the plan PDF, on 2026-11-24.
+- **Built on:** 2026-11-17 (plan projects added 2026-11-24)
 - **Geography:** SEPTA Regional Rail and Metro (L, B, M) stations and trolley routes; stations in Delaware and New Jersey have no district
 
 ## Processing
@@ -20,6 +21,7 @@ Script: [`pipelines/septa_accelerate_stations/build.py`](../../../pipelines/sept
 - **Districts.** Regional Rail districts, county and municipality are copied from `regional-rail-station-districts.csv` (matched on `stop_id`), not recomputed. Metro stations, the three Regional Rail rows that file does not have (Wawa, North Philadelphia Amtrak, Coatesville) and trolley stops are placed by point-in-polygon against the same Census TIGER/Line 2024 polygons and the same 100 m edge test that pipeline uses. Council districts are point-in-polygon against the City's 2024 layer, for Philadelphia stations only.
 - **Metro stations** are the stops on GTFS routes L1, B1, B3 and M1, one row per station per line letter (a station on both the B1 and B3 is one row). The employee-only platform on the M is dropped.
 - **District summary.** [`build_district_summary.py`](../../../pipelines/septa_accelerate_stations/build_district_summary.py) counts the station and trolley files by district and adds the member and 2026 result (from the datasets above), the member's vote on final passage of the 2025–26 transit funding bill in that chamber (HB 1788 in the House, HB 257 in the Senate, from [transportation votes](../../pennsylvania/transportation-votes/)), and weekday Regional Rail boardings from [SEPTA's station layer](../septa-regional-rail-stations/), matched on `stop_id`. It reads only files in this repo. It counts; it does not score or rank districts.
+- **Named plan projects.** [`build_plan_projects.py`](../../../pipelines/septa_accelerate_stations/build_plan_projects.py) places each of Jeff's 39 projects, best source first: at a station in the station file (districts copied); along the GTFS shapes of Routes 47, 72 and 76 (districts the route crosses); at Jeff's hand-placed point for the two transit centers and Crum Creek Viaduct; along Jeff's hand-drawn line for the Olney Avenue and Roosevelt Boulevard corridors, whose extent the plan does not give. Projects the other files already place (trolleys, L/B/M cars, Regional Rail frequencies and accessibility, the Schuylkill bridges) are listed but not placed again. Systemwide items, and pit-crew cleaning (the plan names no line ends), have no location. `location_basis` says which applies.
 - **Named FY27 projects** are matched to stations by hand, by project name, and their total project cost is read from the capital budget table.
 
 ## Files
@@ -31,6 +33,8 @@ Script: [`pipelines/septa_accelerate_stations/build.py`](../../../pipelines/sept
 | `septa-accelerate-trolley-stops-by-district.csv` | CSV | Trolley stops counted by route, chamber (`house`, `senate`, `council`) and district |
 | `fy27-named-station-projects.csv` | CSV | The 22 named FY27 capital projects and the station rows each is attached to |
 | `septa-accelerate-district-summary.csv` | CSV | One row per House and Senate district with at least half its population in the five Pennsylvania SEPTA counties or with a station or trolley stop, and per Council district: counts from the files above plus the member, 2026 result, transit funding vote and Regional Rail boardings |
+| `septa-accelerate-plan-projects.csv` | CSV | The 39 named projects in the Accelerate plan, with status, plan pages and the districts each reaches |
+| `septa-accelerate-plan-projects.geojson` | GeoJSON | The 19 of those placed here, for mapping |
 | `census-geocoder-check.csv` | CSV | Independent check of the 77 point-in-polygon station rows against the Census geocoder |
 
 ## Columns
@@ -80,12 +84,15 @@ Script: [`pipelines/septa_accelerate_stations/build.py`](../../../pipelines/sept
 | `trolley_routes`, `trolley_stops` | text, number | Trolley routes with a stop in the district, and their stops (counted as in the trolley file) |
 | `fy27_named_projects` | number | Distinct named FY27 station projects at stations in the district |
 | `fy27_named_projects_millions` | number | Total project cost of those projects, $ millions, each counted once per district. A project with stations in two districts counts in full in both, so do not sum this column across districts. Program-wide budget lines are not included |
+| `plan_projects`, `plan_project_names` | number, text | Named Accelerate plan projects placed in the district (stations, bus routes, transit centers, corridors, TOD sites), and their names separated by `;`. Projects counted elsewhere in this file, and systemwide ones, are not included |
 | `rr_weekday_boardings` | number | SEPTA's weekday total boardings at the district's Regional Rail stops |
 | `rr_weekday_boardings_at_15_min_stations` | number | The same, for 15-minute stops only |
 | `rr_stations_without_boardings` | number | Stops with no SEPTA boardings figure (Wawa, North Philadelphia Amtrak, Coatesville) |
 | `near_boundary_stations` | number | Stations within 100 m of this district's edge |
 
 `fy27-named-station-projects.csv`: `project`, `cpms`, `program` (as in the budget), `total_cost_millions`, `twelve_year_millions` (FY2027–2038), `stations`, `budget_page` (PDF page of the project sheet).
+
+`septa-accelerate-plan-projects.csv`: `id` (Jeff's), `name`, `program` (the plan's section), `project_type`, `status` (as the plan states it: `proposed`, `underway`, `underway (procurement)`, `completed`, `status not stated`), `quantities`, `description`, `plan_pages` (printed page numbers), `location_basis` (`gtfs_station`, `gtfs_route_shape`, `approximate_point`, `schematic_line`, `covered_elsewhere` or `none`), `location_note`, `stations`, `house_districts`, `senate_districts`, `council_districts` (each separated by `;`), `covered_in` (the file that already places it), `related_fy27_project`, `dvrpc_tip_mpms`, `notes`.
 
 ## Key findings
 
@@ -95,6 +102,8 @@ Script: [`pipelines/septa_accelerate_stations/build.py`](../../../pipelines/sept
 - **Seats that flipped.** Seven stations with a proposed tier are in House seats that flipped R to D in the unofficial 2026 results: Cornwells Heights, Eddington, Neshaminy Falls and Trevose (HD-18, 30-minute tier), Langhorne and Woodbourne (HD-142, 60-minute tier), and Wawa (HD-160, 15-minute tier). Eight are in Senate seats that flipped (seven in SD-6, one in SD-24).
 - **Trolleys.** The plan proposes 5-minute peak service on the five T routes and 15-minute peak service on the D1 and D2, with new low-floor vehicles and accessible stops. The eight routes have 706 GTFS stops between them (shared stops counted once per route).
 - **The named FY27 station projects total $1,388.28M** across 22 projects and 26 station rows. The largest is the $400M Schuylkill bridges and interlockings between 30th Street and Suburban Station.
+
+- **The plan names 39 projects; 19 are placed here.** 11 are at stations, 3 are bus routes, 2 are transit centers, 2 are street corridors and 1 is a viaduct. 9 more (trolleys, L/B/M cars, Regional Rail frequencies and accessibility, the Schuylkill bridges) are already placed by the station, trolley and FY27 files. 11 are systemwide or name no site. 46 of the 92 districts in the summary have at least one placed plan project.
 
 Program-wide FY27 budget lines related to the plan's vehicles and lines, total project cost from the capital budget. These are **not** divided among districts (see caveats).
 
@@ -133,6 +142,8 @@ The 77 rows placed here by point-in-polygon (74 Metro stations and 3 Regional Ra
 
 - **The district summary leaves out buses.** Accelerate's largest change in Philadelphia is the bus network: the Philadelphia fact sheet's 620,000 to 1.4 million residents near frequent transit comes mostly from buses. Bus changes are not counted here, so districts served mainly by bus will look like they get less from the plan than they do. Read the summary as rail and trolley only.
 - **Boardings are SEPTA's and undated.** SEPTA's station layer does not say what period its counts cover (see [that dataset](../septa-regional-rail-stations/)). They are Regional Rail only; Metro and trolley ridership is not included.
+- **Plan projects have no dollars.** The plan gives no cost for them. Where one matches a FY27 budget project, `related_fy27_project` names it.
+- **Corridor and route districts are generous.** A route or corridor counts in every district it touches, including one it only runs along the edge of. The Olney Avenue and Roosevelt Boulevard lines are hand-drawn and their extent is assumed (see `location_note`).
 - **Council rows have no member names.** The repo does not have a City Council roster yet.
 - **Votes belong to the 2025–26 member.** Where a seat flipped or turned over, the new member did not cast that vote.
 

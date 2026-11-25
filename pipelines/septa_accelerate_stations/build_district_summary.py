@@ -6,6 +6,7 @@ Usage:
 Reads only files already in this repo (no downloads), relative to the repo root:
     datasets/septa-region/septa-accelerate-station-service/septa-accelerate-stations.csv
     datasets/septa-region/septa-accelerate-station-service/septa-accelerate-trolley-stops-by-district.csv
+    datasets/septa-region/septa-accelerate-station-service/septa-accelerate-plan-projects.csv
     datasets/septa-region/septa-regional-rail-stations/septa-regional-rail-stations.csv
         (Weekday_Total_Boards, matched on stop_id)
     datasets/pennsylvania/legislators-2025-2026/records/
@@ -13,7 +14,7 @@ Reads only files already in this repo (no downloads), relative to the repo root:
     datasets/pennsylvania/transportation-votes/member-votes.csv
         (HB 1788 House final passage, Aug 11 2025; HB 257 Senate final passage, Aug 12 2025)
 
-Run build.py first; this script reads its output.
+Run build.py and build_plan_projects.py first; this script reads their output.
 
 Counts only. Nothing is scored or ranked.
 """
@@ -44,6 +45,7 @@ COLUMNS = [
     "metro_stations", "accessibility_rebuilds", "accessible_today_unknown",
     "trolley_routes", "trolley_stops",
     "fy27_named_projects", "fy27_named_projects_millions",
+    "plan_projects", "plan_project_names",
     "rr_weekday_boardings", "rr_weekday_boardings_at_15_min_stations", "rr_stations_without_boardings",
     "near_boundary_stations",
 ]
@@ -76,6 +78,13 @@ def main(out_path):
 
     cost = {r["project"]: float(r["total_cost_millions"])
             for r in csv.DictReader(open(OUT_DIR / "fy27-named-station-projects.csv", encoding="utf-8"))}
+
+    # Named Accelerate plan projects placed at a site (not systemwide, not already counted by station or route).
+    plan = defaultdict(list)
+    for r in csv.DictReader(open(OUT_DIR / "septa-accelerate-plan-projects.csv", encoding="utf-8")):
+        for ch in ("house", "senate", "council"):
+            for d in filter(None, (x.strip() for x in r[f"{ch}_districts"].split(";"))):
+                plan[(ch, d)].append(r["name"])
 
     rows = defaultdict(lambda: defaultdict(int))
     routes = defaultdict(set)
@@ -118,6 +127,9 @@ def main(out_path):
             if sum(c["populationShare"] for c in pr["topCounties"] if c["name"] in REGION) >= 0.5:
                 rows[(ch, str(pr["district"]))]  # creates an empty row if the district has no stops
 
+    for key in plan:
+        rows[key]  # a district reached only by a plan project still gets a row
+
     for t in trolley:
         key = (t["chamber"], t["district"])
         rows[key]["trolley_stops"] += int(t["stop_count"])
@@ -129,7 +141,9 @@ def main(out_path):
         row.update(chamber=ch, district=d,
                    trolley_routes="; ".join(sorted(routes[(ch, d)])),
                    fy27_named_projects=len(projects[(ch, d)]),
-                   fy27_named_projects_millions=f"{sum(cost[p] for p in projects[(ch, d)]):.2f}" if projects[(ch, d)] else "")
+                   fy27_named_projects_millions=f"{sum(cost[p] for p in projects[(ch, d)]):.2f}" if projects[(ch, d)] else "",
+                   plan_projects=len(plan[(ch, d)]),
+                   plan_project_names="; ".join(plan[(ch, d)]))
         for c in ("member_2025_26", "party_2025_26", "seat_2026_status", "winner_2026", "winner_party_2026",
                   "transit_funding_vote_bill", "transit_funding_vote_2025_26", "transit_funding_vote_pro_transit"):
             row[c] = ""
